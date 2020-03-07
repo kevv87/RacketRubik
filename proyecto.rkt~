@@ -57,10 +57,9 @@
                                           )
                                  ))
 
-; Funcion que crea el cubo rubik de tamanno nxn y centra la camara
+; Funcion que crea el cubo rubik de tamanno nxn
 (define (createrubik n) (
-                     combine (basis 'camera (point-at (pos (* (/ n 2) 0.5) (* (/ n 2) 0.5) (* n 2)) (pos (* (/ n 2) 0.5) (* (/ n 2) 0.5) 0) ))
-                     ( createrubik-aux n 0 0 0)
+                     createrubik-aux n 0 0 0
                      ))
 (define (createrubik-aux n x y z) (
                                 
@@ -74,14 +73,9 @@
                                (else (combine (createcube x y z 0.5) (createrubik-aux n (+ x 1) y z) ) )
                               ))
 
+(define camera (basis 'camera (point-at (pos 6 6 6) (pos 0 0 0) )) )
 
-
-
-
-
-; Funcion que va a dibujar cada frame
-(define (on-draw s n t) ( createrubik 3 ))
-
-;Funcion para rotar el cubo
+(define (on-draw s n t) (combine camera (createrubik 3) ))
 
 (big-bang3d 0 #:on-draw on-draw)
+
