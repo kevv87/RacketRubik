@@ -38,7 +38,7 @@
 
 ;Funcion que crea una linea central de 2 elementos
 (define (centro_interior X Colores)
-  (cond ((equal? X 0)
+  (cond ((equal? X 1)
          '())
         (else (cons (list (car Colores)) (centro_interior (- X 1) (cdr Colores))))))
 
@@ -62,10 +62,10 @@
          (format_x X Colores 1 (+ Columna 1)))
         ((or (equal? Fila 1) (equal? Fila X))   ;Fila 1 o N y Columna 1 o N => arista
          (cond ((or (equal? Columna 1) (equal? Columna X))
-                (cons (arista_a (get_elementos (+ 6 (* 2 (- X 2))) Colores) #f) (format_x X (borrar_elementos (+ 6 (* 2 X)) Colores) (+ Fila 1) Columna)))
+                (cons (arista_a (get_elementos (+ 6 (* 2 (- X 2))) Colores) #f) (format_x X (borrar_elementos (+ 6 (* 2 (- X 2))) Colores) (+ Fila 1) Columna)))
                ((and (> Columna 1) (< Columna X))   ;Fila 1 o N y 1<Columna<N => anade centro_cara
-                (cons (centro_cara (get_elementos (+ 4 (- X 2)) Colores) #f) (format_x X (borrar_elementos (+ 4 (- X 2)) Colores) (+ Fila 1) Columna)))
+                (cons (centro_cara (get_elementos (+ 4 (- X 2)) Colores) #f) (format_x X (borrar_elementos (+ 4 (- X 2)) Colores) (+ Fila 1) Columna)))))
         ((and (or (equal? Columna 1) (equal? Columna X)) (and (> Fila 1) (< Fila X)))   ;Columna 1 o N y 1<Fila<X => anade centro_cara
          (cons (centro_cara (get_elementos (+ 4 (- X 2)) Colores) #f) (format_x X (borrar_elementos (+ 4 (- X 2)) Colores) (+ Fila 1) Columna)))
         ((and (and (> Fila 1) (< Fila X)) (and (> Columna 1) (< Columna X)))
-         (cons (centro_interior X (get_elementos 2 Colores)) (format_x X (borrar_elementos 2 Colores) (+ Fila 1) Columna)))))))
+         (cons (centro_interior X (get_elementos 2 Colores)) (format_x X (borrar_elementos 2 Colores) (+ Fila 1) Columna)))))
