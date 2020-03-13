@@ -1,6 +1,7 @@
 #lang racket
 (define lista '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54))
-(define cubo_estandar '(naran blanc azul blanc azul blanc rojo azul naran azul azul rojo azul naran amar azul amar azul amar rojo azul blanc naran blanc blanc rojo naran () rojo naran amar amar amar rojo blanc naran verd blanc verd blanc rojo verd naran verde verde rojo verd naran amar verd amar verd amar rojo verd))
+(define cubo_3x3 '(naran blanc azul blanc azul blanc rojo azul naran azul azul rojo azul naran amar azul amar azul amar rojo azul blanc naran blanc blanc rojo naran X rojo naran amar amar amar rojo blanc naran verd blanc verd blanc rojo verd naran verde verde rojo verd naran amar verd amar verd amar rojo verd))
+(define cubo_4x4 '(naran blanc azul blanc azul blanc azul blanc rojo azul naran azul azul azul rojo azul naran azul azul azul rojo azul naran amar azul amar azul amar azul amar rojo azul blanc naran blanc blanc blanc rojo naran X X rojo naran X X rojo naran amar amar amar amar rojo blanc naran blanc blanc blanc rojo naran X X rojo naran X X rojo naran amar amar amar amar rojo blanc naran verd blanc verd blanc verd blanc rojo verd naran verd verd verd verd rojo naran verd verd verd rojo verd naran amar verd amar verd amar verd amar rojo verd))
 
 ;Colores: [(vacio, 0), (rojo, 1), (azul, 2), (naranja, 3), (verde, 4), (blanco, 5), (amarillo, 6)]
 ;Orden de caras: frente, derecha, reverso, izquierda, superior, inferior.
@@ -39,7 +40,7 @@
 
 ;Funcion que crea una linea central de 2 elementos
 (define (centro_interior X Colores)
-  (cond ((equal? X 1)
+  (cond ((equal? X 0)
          '())
         (else (cons (list (car Colores)) (centro_interior (- X 1) (cdr Colores))))))
 
@@ -69,7 +70,7 @@
         ((and (or (equal? Columna 1) (equal? Columna X)) (and (> Fila 1) (< Fila X)))   ;Columna 1 o N y 1<Fila<X => anade centro_cara
          (cons (centro_cara (get_elementos (+ 4 (- X 2)) Colores) #f) (format_x X (borrar_elementos (+ 4 (- X 2)) Colores) (+ Fila 1) Columna)))
         ((and (and (> Fila 1) (< Fila X)) (and (> Columna 1) (< Columna X)))   ;1<Columna<X y 1<Fila<X => Centro interior
-         (cons (centro_interior X (get_elementos 3 Colores)) (format_x X (borrar_elementos 3 Colores) (+ Fila 1) Columna)))))
+         (cons (centro_interior X (get_elementos X Colores)) (format_x X (borrar_elementos X Colores) (+ Fila 1) Columna)))))
 
 ;Paso 2 -> Funcion que agrupa el cubo inicial por caras moviles
 (define (caras_moviles X Cubo)
@@ -126,33 +127,7 @@
          (buscar_elemento Lista Cara Fila (- Elemento 1)))
         ((> Elemento 0)
          (buscar_elemento (cdr Lista) Cara Fila (- Elemento 1)))))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          
-
-  
+ 
 ;Funcion que identifica el tipo de agrupacion del cubo (horizontal/x o vertical/y)
 (define (identificar eje Cubo)
   (list eje Cubo))
