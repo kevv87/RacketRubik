@@ -28,7 +28,7 @@ Entradas:
                                                    ; Hay rotacion de linea, al ser creado verticalmente solo puede rotar en y.
                                                    ((equal? i (car rotar)) (
                                                                             combine (rotate-x/center (pintarFilaV (car listalineas) lado -1 n size)
-                                                                                                     (*  (/ (cadddr rotar ) (car (cddddr rotar ))) (cadr rotar ) )
+                                                                                                     (*  (/ (* -1 (cadddr rotar )) (car (cddddr rotar ))) (cadr rotar ) )
                                                                                                      ) 
                                                                                     (pintarV (cdr listalineas) (+ lado 1) rotar n size (+ i 1) )
                                                                                      ))
@@ -787,7 +787,7 @@ Entradas:
                                  (rotate-x/center (pintarV (car s)  -1 '(#f) (cadr s) 1 -1)
                                                   ; Se dividen los grados que hay que rotar por la cantidad de frames en los que hay que hacerlo y se multiplica
                                                   ; por los frames que se llevan
-                                                  (*  (/ (cadddr (caddr s) ) (car (cddddr (caddr s) ))) (cadr (caddr s) ) )
+                                                  (*  (/ (* -1 (cadddr (caddr s) )) (car (cddddr (caddr s) ))) (cadr (caddr s) ) )
                                                   ) ))
                                                                              
                                                                         ))
@@ -821,12 +821,137 @@ si ya termino.
 (define (on-frame s n t) (
                           ; Hay rotaciones, entonces le suma uno a los frames que lleva o quita la lista de rotacion si ya se alcanzaron los frames necesarios
                         cond ((not (null? (caddr s)) ) (
-                                                        list (car s) (cadr s) (aumentar-frame (caddr s)) (cadddr s) (car (cddddr s))
+                                                        list (car s) (cadr s) (aumentar-frame (caddr s)) (cadddr s) (car (cddddr s)) (cadr (cddddr s))
                                  ))
                              (else s)
                         ))
 
+#|Funciones para mouse drag|#
+
+; Funcion que devuelve el cambio en alguna variable a partir de una variable inicial y una final
+(define (cambion ni nf)(
+			- nf ni
+			))
+
+#| 
+Funcion que devuelve si hubo un movimiento en x o y a partir del inicio y final del movimiento en cada coordenada
+de existir un movimiento en x o y devuelve "x" si fue en x o "y" si fue en y, de no existir tira #f.
+|#
+(define (movimiento xi yi xf yf)(
+				 cond ((> (abs (cambion xi xf)) (abs(cambion yi yf))) "x")
+				 ((< (abs(cambion xi xf)) (abs (cambion yi yf))) "y")
+				 (else #f)
+				 ))
+#|
+Funcion encargada de retornar la cantidad de movimiento que hubo en un cierto eje, igual que movimiento, pero en vez de retornar booleano retorna int.
+|#
+(define (cantidadMovimiento xi yi xf yf)(
+				 cond ((> (abs (cambion xi xf)) (abs (cambion yi yf))) (cambion xi xf))
+				 ((< (abs (cambion xi xf)) (abs (cambion yi yf))) (cambion yi yf))
+				 (else 0)
+				 ))
+#|
+Funcion que toma un numero y si es positivo devuelve +90, si es negativo -90, esto se hace porque las rotaciones son discretas, es decir, si se rota
+se rota hasta la otra cara.
+|#
+(define (ninetify number)(
+			  cond ((> number 0) -90)
+			  ((< number 0) 90)
+			  (else 0)
+			  ))
+
+#|
+Funcion encargada de agregar una nueva rotacion, solo lo hace si no hay una rotacion en ejecucion, es decir, si la lista de rotaciones esta vacia
+toma la lista s, el eje de rotacion, la direccion (numero positivo o negativo) y la linea en que lo va a hacer (tomar en cuenta que va de -1 a (n-2) y es n si se va a rotar todo el cubo )
+|#
+(define (agregarRotacion s eje direccion linea)(write eje)(
+						; No hay rotaciones
+						cond ((null? (caddr s))(
+									append (drop-right s 4)
+									(list (list
+										linea 0 eje (ninetify direccion) 7
+										))
+									(drop-right (cdddr s) 1)
+									'(())
+							 ))
+						; Si hay rotaciones ignora la orden
+						(else s)
+						))
+
+#|
+Funcion encargada de monitorear los cambios del mouse
+cuando se encuentra un evento tipo left-down, se guarda la posicion x y y del mouse
+cuando se encuentra un evento tipo left-up, se compara la posicion guardada anteriormente con la actual 
+y se agrega a la lista de rotaciones la rotacion pertinente
+|#
+(define (on-mouse s n t x y e)
+                               (
+                                cond ((equal? "left-down" e)(
+                                                        append (drop-right s 1) (list (list x y))
+                                                        ))
+				((equal? "left-up" e)(
+						      ; Cambiar el 3!!
+						      agregarRotacion s (movimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y) (cantidadMovimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y) 3 
+				    ))
+				(else s)
+                                )
+                               )
+
+
+
+
+
+
+
+
+
+
+
+#|
+Funciones principales
+|#
 ;(on-draw 0 0 0)
+
+; Sin rotacion
+(big-bang3d
+ 
+ '(
+                       ;Lista del cubo
+                       (
+			     ; Primera linea hroizontal
+			     (
+			     ( ( (rgba "green") (rgba "red") (rgba "yellow") ) ( (rgba "white") (rgba "orange") ) ( (rgba "orange") (rgba "white") (rgba "blue") ) ) 
+			     ( ( (rgba "blue") (rgba "white") )     ((rgba "white"))     ( (rgba "green") (rgba "yellow") ) ) 
+			     ( ( (rgba "blue") (rgba "red") (rgba "yellow") ) ( (rgba "green") (rgba "orange") ) ( (rgba "orange") (rgba "blue") (rgba "yellow") ) )  
+			     )
+			     ; Segunda linea horizontal
+			     (
+			     ( ( (rgba "red") (rgba "blue") )  ((rgba "blue"))  ( (rgba "white") (rgba "green")  ) ) 
+			     (   ((rgba "red"))     ()    (( rgba "orange" )) ) 
+			     ( ( (rgba "red") (rgba "green") )  ((rgba "green"))  ( (rgba "blue") (rgba "yellow") ) )  
+			     )
+			     ; Tercera linea horizontal
+			     (
+			     ( ( (rgba "green") (rgba "white") (rgba "orange") ) ( (rgba "blue") (rgba "orange") ) ( (rgba "red") (rgba "green") (rgba "white") ) ) 
+			     ( ( (rgba "yellow") (rgba "red") )     ((rgba "yellow"))     ( (rgba "yellow") (rgba "orange") ) ) 
+			     ( ( (rgba "blue") (rgba "red") (rgba "white") ) ( (rgba "white") (rgba "red") ) ( (rgba "yellow") (rgba "orange") (rgba "green") ) )  
+			     )
+			     )
+                       ; N del cubo
+                       3
+                       ;Lista de rotacion
+                       ()
+                       ; Lista de movimientos
+                       ()
+                       ; Orientacion de la lista del cubo
+                       "x"
+		       ; Estado del drag
+		       ()
+                       )
+
+ #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse )
+
+
 
 ; Rotacion horizontal
 #;(big-bang3d
@@ -877,7 +1002,7 @@ si ya termino.
  #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140))
 
 ; Rotacion vertical
-(big-bang3d
+#;(big-bang3d
  
  '(
                        ;Lista del cubo
