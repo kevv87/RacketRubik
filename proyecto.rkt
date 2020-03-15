@@ -811,10 +811,17 @@ Entradas:
   ))
 
 
-(define (aumentar-frame listaRot) (
-                                   cond ((equal? (car (cddddr listaRot)) (cadr listaRot) ) '() )
+(define (aumentar-frame listaRot s) (
+                                   cond ((equal? (car (cddddr listaRot)) (cadr listaRot) ) (
+											    ; Aqui se rota la lista en direccion de caddddr s
+                                               list (car s) (cadr s) 
+					       '()
+					       (cadddr s) (car (cddddr s)) (cadr (cddddr s))
+                                               ) )
                                         (else (
-                                               list (car listaRot) (+ (cadr listaRot) 1) (caddr listaRot) (cadddr listaRot) (car (cddddr listaRot))
+                                               list (car s) (cadr s) 
+					       (list (car listaRot) (+ (cadr listaRot) 1) (caddr listaRot) (cadddr listaRot) (car (cddddr listaRot)))
+					       (cadddr s) (car (cddddr s)) (cadr (cddddr s))
                                                ))                                    
                                    ) )
 #|
@@ -824,8 +831,8 @@ si ya termino.
 (define (on-frame s n t) (
                           ; Hay rotaciones, entonces le suma uno a los frames que lleva o quita la lista de rotacion si ya se alcanzaron los frames necesarios
                         cond ((not (null? (caddr s)) ) (
-                                                        list (car s) (cadr s) (aumentar-frame (caddr s)) (cadddr s) (car (cddddr s)) (cadr (cddddr s))
-                                 ))
+                                                        aumentar-frame (caddr s) s
+							))
                              (else s)
                         ))
 
