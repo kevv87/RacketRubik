@@ -757,11 +757,12 @@ Entradas:
                           ; No hay rotaciones
                           ((null? (caddr s)) (
 					      cond ((equal? (car (cddddr s)) "x" ) (
-										    combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 -2) origin) ))
+										    combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at 
+																					      (pos 0 0 (* -1 (cadr s)) ) origin) ))
 										    (rotate-x/center (pintarH (car s) -1 '(#f) (cadr s) 1 -1) 0 )
 										    ))
 					      (else (
-						     combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 -2) origin) )) 
+						     combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) )) 
 						     (rotate-x/center (pintarV (car s) -1 '(#f) (cadr s) 1 -1) 0 )
 										    ))
                           ) )
@@ -773,7 +774,7 @@ Entradas:
                                                                         ; (eval (caddr s) ns) es la lista de rotacion
                                                                         ;horizontal
                                                                         cond ((equal? "x" ( caddr (caddr s)  ))(
-                                 combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 -2) origin) ))
+                                 combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
                                  ; Aqui se rota el cubo completo, rotate-x rota a la izquierda y derecha y rotate-y rota hacia arriba y abajo
                                  (rotate-y/center (pintarH (car s) -1 '(#f) (cadr s) 1 -1)
 
@@ -782,7 +783,7 @@ Entradas:
                                                   (*  (/ (cadddr (caddr s) ) (car (cddddr (caddr s) ))) (cadr (caddr s) ) ) ) ) )
                                                                              ; Vertical
                                                                              ((equal? "y" ( caddr (caddr s)  ) ) (
-                                 combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 -2) origin) ))
+                                 combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
                                  ; Aqui se rota el cubo completo, rotate-x rota a la izquierda y derecha y rotate-y rota hacia arriba y abajo
                                  (rotate-x/center (pintarV (car s)  -1 '(#f) (cadr s) 1 -1)
                                                   ; Se dividen los grados que hay que rotar por la cantidad de frames en los que hay que hacerlo y se multiplica
@@ -794,10 +795,10 @@ Entradas:
                                   ; Hay que rotar una cara
                                   (else (
 					 cond ((equal? "y" (caddr (caddr s) )) 
-					       (combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 -2) origin) ))
+					       (combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
 							(pintarV (car s) -1 (caddr s) (cadr s) 1 -1)) )
 					 ((equal? "x" (caddr (caddr s) )) 
-					       (combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 -2) origin) ))
+					       (combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
 							(pintarH (car s) -1 (caddr s) (cadr s) 1 -1)) )
                                    
 					)
@@ -864,7 +865,7 @@ se rota hasta la otra cara.
 Funcion encargada de agregar una nueva rotacion, solo lo hace si no hay una rotacion en ejecucion, es decir, si la lista de rotaciones esta vacia
 toma la lista s, el eje de rotacion, la direccion (numero positivo o negativo) y la linea en que lo va a hacer (tomar en cuenta que va de -1 a (n-2) y es n si se va a rotar todo el cubo )
 |#
-(define (agregarRotacion s eje direccion linea)(write eje)(
+(define (agregarRotacion s eje direccion linea)(
 						; No hay rotaciones
 						cond ((null? (caddr s))(
 									append (drop-right s 4)
@@ -881,10 +882,19 @@ toma la lista s, el eje de rotacion, la direccion (numero positivo o negativo) y
 #|
 Funcion encargada de proyectar un punto en el plano de la pantalla al mundo tridimensional del cubo rubik
 recibe una x y una y del punto a proyectar y el tamanno del cubo.
+Retorna n si el drag se hizo fuera del cubo
+Retorna (i j) donde i es la cara donde se hizo el drag en x y j lo mismo en y.
 |#
 (define (proyeccion x y n)(
-			 cond ((or (< (exact->inexact (/ x (/ 382 n)) ) 0.5) (> (exact->inexact (/ x (/ 382 n)) )  (+ n 0.5)) (< (exact->inexact (/ y (/ 382 n)) ) 0.5) (> (exact->inexact (/ y (/ 382 n)) ) (+ n 0.5))) "Fuera del cubo")
-			 (else "Dentro del cubo")
+			   ; Se esta haciendo drag fuera del cubo
+			 cond ((or (< (exact->inexact (/ x (/ 253 n)) ) 1.5) (> (exact->inexact (/ x (/ 253 n)) )  (+ n 1.5)) (< (exact->inexact (/ y (/ 253 n)) ) 1.5) (> (exact->inexact (/ y (/ 253 n)) ) (+ n 1.5))) 
+			       (
+				list (+ n 1) (+ n 1)
+				))
+			 ; Se esta haciendo drag dentro del cubo
+			 (else (
+				list (inexact->exact (truncate (- (exact->inexact (/ x (/ 253 n)) ) 1.5) )) (inexact->exact (truncate (- (exact->inexact (/ y (/ 253 n)) ) 1.5) ))
+				))
 			 ))
 
 
@@ -896,13 +906,25 @@ y se agrega a la lista de rotaciones la rotacion pertinente
 |#
 (define (on-mouse s n t x y e)
                                (
-                                cond ((equal? "left-down" e)(writeln (proyeccion x y 3))(
-                                                        append (drop-right s 1) (list (list x y))
+                                cond ((equal? "left-down" e)(
+                                                        append (drop-right s 1) (list (list x y (proyeccion x y (cadr s)) ))
                                                         ))
-				((equal? "left-up" e)(
-						      ; Cambiar el 3!!
-						      agregarRotacion s (movimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y) (cantidadMovimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y) 3 
-				    ))
+				((equal? "left-up" e)( 
+						      cond ((equal? "y" (movimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y))(
+																	   agregarRotacion s 
+						      (movimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y) 
+						      (cantidadMovimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y) 
+						      (- (car (caddar (take-right s 1))) 1)
+
+																	   ))
+						      ((equal? "x" (movimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y))(
+																	   agregarRotacion s 
+						      (movimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y) 
+						      (cantidadMovimiento (caar (take-right s 1)) (cadar (take-right s 1)) x y) 
+						      (- (cadr (caddar (take-right s 1))) 1)
+
+																	   ))
+										    ))
 				(else s)
                                 )
                                )
