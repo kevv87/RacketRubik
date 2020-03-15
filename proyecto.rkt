@@ -346,50 +346,51 @@ Entradas:
 (define (pintarCaraV cara lado tapa cubo size color) (
 				     cond ((equal? cara "frente")(
 								  quad
-								    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) ) #:back? #t
+								    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1) )
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) 
+								    #:back? #t
 								    
 								  ))
 				          ((equal? cara "izquierda")(
 								     quad
-								    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) )
+								    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
 								    )
 								     )
 					  ((equal? cara "derecha")(
 								   quad
-								    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) ) #:back? #t
+								    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
 								    
 								   ))
 					  ((equal? cara "arriba")(
 								  quad
-								    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) )
+								    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
 								    
 								  ))
 					  ((equal? cara "atras")(
 								 quad
-								    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1)  (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) )
+								    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ tapa 1)  (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
 								    
 								 ))
 					  ((equal? cara "abajo")(
 								 quad
-								    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) ) #:back? #t
+								    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
 								    
 								 ))
 				     ))
@@ -407,50 +408,50 @@ Entradas:
 				     cond ((equal? cara "frente")(
 								  ; Frente
 								  quad
-								    (vertex (pos cubo (+ lado 1) (+ tapa 1)) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1)) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1)) #:color (eval color ns) )
-                                                                    (vertex (pos cubo  (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) ) #:back? #t
+								    (vertex (pos cubo (+ lado 1) (+ tapa 1)) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1)) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1)) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos cubo  (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
 								    
 								  ))
 				          ((equal? cara "izquierda")(
 								     quad
-								    (vertex (pos cubo (+ lado 1) (+ tapa 1) ) #:color (eval color ns) )
-                                                                    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos cubo (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) )
+								    (vertex (pos cubo (+ lado 1) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos cubo (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
 								    )
 								     )
 					  ((equal? cara "derecha")(
 								   quad
-								    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) ) #:back? #t
+								    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
 								    
 								   ))
 					  ((equal? cara "arriba")(
 								  quad
-								    (vertex (pos cubo (+ lado 1) (+ tapa 1) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) )
+								    (vertex (pos cubo (+ lado 1) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
 								    
 								  ))
 					  ((equal? cara "atras")(
 								 quad
-								    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ lado 1)  (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) )
+								    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ lado 1)  (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
 								    
 								 ))
 					  ((equal? cara "abajo")(
 								 quad
-								    (vertex (pos cubo (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) )
-                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) )
-                                                                    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) ) #:back? #t
+								    (vertex (pos cubo (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+                                                                    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
 								    
 								 ))
 				     ))
@@ -760,6 +761,7 @@ Entradas:
 										    combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at 
 																					      (pos 0 0 (* -1 (cadr s)) ) origin) ))
 										    (rotate-x/center (pintarH (car s) -1 '(#f) (cadr s) 1 -1) 0 )
+										    (light (pos 5 5 5) )
 										    ))
 					      (else (
 						     combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) )) 
