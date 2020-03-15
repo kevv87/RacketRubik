@@ -3,19 +3,35 @@
 (define cubo_3x3 '(naran blanc azul blanc azul blanc rojo azul naran azul azul rojo azul naran amar azul amar azul amar rojo azul blanc naran blanc blanc rojo naran X rojo naran amar amar amar rojo blanc naran verd blanc verd blanc rojo verd naran verde verde rojo verd naran amar verd amar verd amar rojo verd))
 (define cubo_4x4 '(naran blanc azul blanc azul blanc azul blanc rojo azul naran azul azul azul rojo azul naran azul azul azul rojo azul naran amar azul amar azul amar azul amar rojo azul blanc naran blanc blanc blanc rojo naran X X rojo naran X X rojo naran amar amar amar amar rojo blanc naran blanc blanc blanc rojo naran X X rojo naran X X rojo naran amar amar amar amar rojo blanc naran verd blanc verd blanc verd blanc rojo verd naran verd verd verd verd rojo naran verd verd verd rojo verd naran amar verd amar verd amar verd amar rojo verd))
 
-;Colores: [(vacio, 0), (rojo, 1), (azul, 2), (naranja, 3), (verde, 4), (blanco, 5), (amarillo, 6)]
-;Orden de caras: frente, derecha, reverso, izquierda, superior, inferior.
+#|                                                       ___________________
+________________________________________________________/Ejecucion del juego\________________________________________________________
+|#
 ;Funcion que simula un cubo de Rubik
 (define (RS X Cubo Movs)
   (cond ((> (round X) 1)
           (cond ((null? Cubo)
-                 (aplic_movs X (cubo_standard (round X)) Movs))
-                (else (aplic_movs X Cubo Movs))))
+                 (aplic_movs X (cubo_standard (round X)) Movs))   ;Si no ingresa un cubo, genera un cubo NxN estandar
+                (else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
         (else #f)))
 
 ;Funcion que aplica los movimientos sobre el cubo
-(define (aplic_movs X Cubo Movs)
-  #t)
+(define (aplic_movs X Cubo_identificado Movs)
+  (cond ((null? Movs)
+         Cubo_identificado)
+        ((equal? (substring (car Movs) 0 1) "F")   ;Para el cubo agrupado horizontalmente
+         (cond ((equal? (substring (car Movs) 2 3) "D")   ;Para direccion positiva de rotacion
+                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) '+)   ;Aplica rotacion + en X
+                (aplic_movs X (identificar 'x (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) '+)) (cdr Movs)))
+               ((equal? (substring (car Movs) 2 3) "I")   ;Para direccion negativa de rotacion
+                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) '-)   ;;Aplica rotacion - en X
+                (aplic_movs X (identificar 'x (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) '-)) (cdr Movs)))))
+        ((equal? (substring (car Movs) 0 1) "C")   ;Para el cubo agrupado verticalmente
+         (cond ((equal? (substring (car Movs) 2 3) "A")   ;Para direccion positiva de rotacion
+                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) '+)   ;Aplica rotacion + en Y
+                (aplic_movs X (cambiar_agrupacion X (identificar 'y (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) '+)) 'x) (cdr Movs)))
+               ((equal? (substring (car Movs) 2 3) "B")   ;Para direccion negativa de rotacion
+                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) '-)   ;;Aplica rotacion - en X
+                (aplic_movs X (cambiar_agrupacion X (identificar 'y (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) '-)) 'x) (cdr Movs)))))))
 
 ;Function that creates a cube of nxn if there's no cube input
 (define (cubo_standard X)
@@ -122,11 +138,11 @@ ________________________________________________________/ Funciones para darle f
 ;PASO 3 -> CUBO IDENTIFICADO POR SU EJE DE ORIENTACION
 #|
 *Funcion: identificar
-*Argumentos: eje de orientacion, cubo agrupado por caras moviles
+*Argumentos: tamano cubo, eje de orientacion, lista de colores del cubo
 *Devuelve: pareja de eje y cubo agrupado por caras
 |#
-(define (identificar eje Cubo)
-  (list eje Cubo))
+(define (identificar Eje Cubo)
+  (list Eje Cubo))
 
 
 
@@ -136,7 +152,7 @@ ________________________________________________________/Funciones para aplicar 
 
 
 #|
-*Funcion: cambair_agrupacion
+*Funcion: cambiar_agrupacion
 *Argumentos: tamano cubo, cubo identificado por eje, nuevo eje de orientacion
 *Devuelve: Cubo de Rubik agrupado por caras moviles horizontales o verticales
 |#
@@ -241,13 +257,12 @@ ________________________________________________________/Funciones para aplicar 
 (define cubo3_format (format_x 3 cubo_3x3 1 1))
 (define cubo3_caras (caras_moviles 3 cubo3_format))
 (define cubo3_id (identificar 'x cubo3_caras))
+;(define cubo3_id (identificar 3 'x cubo_3x3))
 (define cubo3_en_Y '(y
   ((((naran blanc azul) (naran azul) (naran amar azul)) ((blanc naran) (naran) (naran amar)) ((blanc naran verd) (naran verde) (naran amar verd)))
    (((blanc azul) (azul) (amar azul)) ((blanc) (X) (amar)) ((blanc verd) (verde) (amar verd)))
    (((blanc rojo azul) (rojo azul) (amar rojo azul)) ((blanc rojo) (rojo) (amar rojo)) ((blanc rojo verd) (rojo verd) (amar rojo verd))))))
-(define cubo4_format (format_x 4 cubo_4x4 1 1))
-(define cubo4_caras (caras_moviles 4 cubo4_format))
-(define cubo4_id (identificar 'x cubo4_caras))
+;(define cubo4_id (identificar 4 'x cubo_4x4))
 (define cubo4_en_Y '(y
   ((((naran blanc azul) (naran azul) (naran azul) (naran amar azul)) ((blanc naran) (naran) (naran) (naran amar)) ((blanc naran) (naran) (naran) (naran amar)) ((blanc naran verd) (naran verd) (naran verd) (naran amar verd)))
    (((blanc azul) (azul) (azul) (amar azul)) ((blanc) (X) (X) (amar)) ((blanc) (X) (X) (amar)) ((blanc verd) (verd) (verd) (amar verd)))
