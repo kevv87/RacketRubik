@@ -879,6 +879,16 @@ toma la lista s, el eje de rotacion, la direccion (numero positivo o negativo) y
 						))
 
 #|
+Funcion encargada de proyectar un punto en el plano de la pantalla al mundo tridimensional del cubo rubik
+recibe una x y una y del punto a proyectar y el tamanno del cubo.
+|#
+(define (proyeccion x y n)(
+			 cond ((or (< (exact->inexact (/ x (/ 382 n)) ) 0.5) (> (exact->inexact (/ x (/ 382 n)) )  (+ n 0.5)) (< (exact->inexact (/ y (/ 382 n)) ) 0.5) (> (exact->inexact (/ y (/ 382 n)) ) (+ n 0.5))) "Fuera del cubo")
+			 (else "Dentro del cubo")
+			 ))
+
+
+#|
 Funcion encargada de monitorear los cambios del mouse
 cuando se encuentra un evento tipo left-down, se guarda la posicion x y y del mouse
 cuando se encuentra un evento tipo left-up, se compara la posicion guardada anteriormente con la actual 
@@ -886,7 +896,7 @@ y se agrega a la lista de rotaciones la rotacion pertinente
 |#
 (define (on-mouse s n t x y e)
                                (
-                                cond ((equal? "left-down" e)(
+                                cond ((equal? "left-down" e)(writeln (proyeccion x y 3))(
                                                         append (drop-right s 1) (list (list x y))
                                                         ))
 				((equal? "left-up" e)(
