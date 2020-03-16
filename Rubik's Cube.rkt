@@ -21,18 +21,18 @@ ________________________________________________________/Ejecucion del juego\___
          Cubo_identificado)
         ((equal? (substring (car Movs) 0 1) "F")   ;Para el cubo agrupado horizontalmente
          (cond ((equal? (substring (car Movs) 2 3) "D")   ;Para direccion positiva de rotacion
-                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) '+)   ;Aplica rotacion + en X
-                (aplic_movs X (identificar 'x (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) '+)) (cdr Movs)))
+                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) 90)   ;Aplica rotacion + en X
+                (aplic_movs X (identificar 'x (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) 90)) (cdr Movs)))
                ((equal? (substring (car Movs) 2 3) "I")   ;Para direccion negativa de rotacion
-                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) '-)   ;;Aplica rotacion - en X
-                (aplic_movs X (identificar 'x (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) '-)) (cdr Movs)))))
+                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) -90)   ;;Aplica rotacion - en X
+                (aplic_movs X (identificar 'x (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) -90)) (cdr Movs)))))
         ((equal? (substring (car Movs) 0 1) "C")   ;Para el cubo agrupado verticalmente
          (cond ((equal? (substring (car Movs) 2 3) "A")   ;Para direccion positiva de rotacion
-                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) '+)   ;Aplica rotacion + en Y
-                (aplic_movs X (cambiar_agrupacion X (identificar 'y (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) '+)) 'x) (cdr Movs)))
+                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) 90)   ;Aplica rotacion + en Y
+                (aplic_movs X (cambiar_agrupacion X (identificar 'y (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) 90)) 'x) (cdr Movs)))
                ((equal? (substring (car Movs) 2 3) "B")   ;Para direccion negativa de rotacion
-                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) '-)   ;;Aplica rotacion - en X
-                (aplic_movs X (cambiar_agrupacion X (identificar 'y (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) '-)) 'x) (cdr Movs)))))))
+                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) -90)   ;;Aplica rotacion - en X
+                (aplic_movs X (cambiar_agrupacion X (identificar 'y (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) -90)) 'x) (cdr Movs)))))))
 
 ;Function that creates a cube of nxn if there's no cube input
 (define (cubo_standard X)
@@ -221,17 +221,19 @@ ________________________________________________________/Funciones para aplicar 
 
 #|
 *Funcion: rotar
-*Argumentos: tamano cubo, cubo identificado por su eje de orientacion, contador cara, direccion (+ o -)
+*Argumentos: tamano cubo, cubo, contador cara, direccion (+ o -) '+
 *Devuelve: cubo resultante de la rotacion a una de sus caras
 |#
 (define (rotar X Cubo Num_cara Direccion)
-  (cond ((equal? Num_cara 1)
-         (cond ((equal? Direccion '+)
-                (cons (caras_moviles X (rotar+ X (car Cubo) X 1)) (cdr Cubo)))
-               ((equal? Direccion '-)
-                (cons (caras_moviles X (rotar- X (car Cubo) 1 X)) (cdr Cubo)))))
-        (else (cons (car Cubo) (rotar X (cdr Cubo) (- Num_cara 1) Direccion)))))
-
+  (cond ((>= X Num_cara)  ;Si cara menor al tamano, es rotacion de una sola cara
+         (cond ((equal? Num_cara 1)   ;Si ya estoy en la cara indicada
+                (cond ((> Direccion 0)
+                 (cons (caras_moviles X (rotar+ X (car Cubo) X 1)) (cdr Cubo)))
+                ((< Direccion 0)
+                 (cons (caras_moviles X (rotar- X (car Cubo) 1 X)) (cdr Cubo)))))
+         (else (cons (car Cubo) (rotar X (cdr Cubo) (- Num_cara 1) Direccion)))))
+        (else (rotacion X Cubo Direccion X))))   ;Rota el cubo completo
+         
 #|
 *Auxiliar: rotar+
 *Argumentos: tamano cubo, cara por rotar, contador fila (decreciente), contador elemento (creciente)
@@ -256,6 +258,19 @@ ________________________________________________________/Funciones para aplicar 
          (rotar- X Cara 1 (- Elem 1)))
         (else (cons (buscar_elemento Cara 0 Fila Elem) (rotar- X Cara (+ Fila 1) Elem)))))
 
+#|
+*Auxiliar: rotacion
+*Argumentos: tamano cubo, cubo, direccion, contador de caras (decreciente)
+*Devuelve: cubo rotado
+|#
+(define (rotacion X Cubo Direccion Contador_caras)
+  (cond ((zero? Contador_caras)
+         '())
+        ((> Direccion 0)
+         (cons (caras_moviles X (rotar+ X (car Cubo) X 1)) (rotacion X (cdr Cubo) Direccion (- Contador_caras 1))))
+        ((< Direccion 0)
+         (cons (caras_moviles X (rotar- X (car Cubo) 1 X)) (rotacion X (cdr Cubo) Direccion (- Contador_caras 1))))))
+         
 
 (define cubo3_format (format_x 3 cubo_3x3 1 1))
 (define cubo3_caras (caras_moviles 3 cubo3_format))
