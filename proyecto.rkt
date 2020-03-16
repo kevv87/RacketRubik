@@ -1008,7 +1008,7 @@ Entradas:
    Tapa es arriba: -1, centro:0 a n-1, abajo:n-1  
    en esencia funciona igual que pintarV|#
 
-(define (pintarH listalineas lado rotar n size i) (
+(define (pintarH listalineas lado rotar n size i)(
 				  cond ((null? listalineas) empty-pict3d )
 				       (else (
                                               cond
@@ -1035,7 +1035,19 @@ Entradas:
 					      cond ((equal? (car (cddddr s)) "x" ) (
 										    combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at 
 																					      (pos 0 0 (* -1 (cadr s)) ) origin) ))
-										    (rotate-x/center (pintarH (car s) -1 '(#f) (cadr s) 1 -1) 0 )
+										    (rotate-x/center (pintarH (cadr (
+							    cambiar_agrupacion 
+							    ;N del cubo
+							    (cadr s)
+							    ; Cubo identificado (x cubo)
+							    (list 
+							      (cond ((equal? "x" (car (cddddr s))) 'x)
+								    (else 'y)
+								    )
+							      (car s) )
+							    ; De que manera quiero orientarlo 
+							    'x
+							    )) -1 '(#f) (cadr s) 1 -1) 0 )
 										    (light (pos 5 5 5) )
 										    ))
 					      (else (
@@ -1053,7 +1065,19 @@ Entradas:
                                                                         cond ((equal? "x" ( caddr (caddr s)  ))(
                                  combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
                                  ; Aqui se rota el cubo completo, rotate-x rota a la izquierda y derecha y rotate-y rota hacia arriba y abajo
-                                 (rotate-y/center (pintarH (car s) -1 '(#f) (cadr s) 1 -1)
+                                 (rotate-y/center (pintarH (cadr (
+							    cambiar_agrupacion 
+							    ;N del cubo
+							    (cadr s)
+							    ; Cubo identificado (x cubo)
+							    (list 
+							      (cond ((equal? "x" (car (cddddr s))) 'x)
+								    (else 'y)
+								    )
+							      (car s) )
+							    ; De que manera quiero orientarlo 
+							    'x
+							    )) -1 '(#f) (cadr s) 1 -1)
 
                                                   ; Se dividen los grados que hay que rotar por la cantidad de frames en los que hay que hacerlo y se multiplica
                                                   ; por los frames que se llevan
@@ -1087,11 +1111,9 @@ Entradas:
 
 
 (define (aumentar-frame listaRot s) (
-                                   cond ((equal? (car (cddddr listaRot)) (cadr listaRot) ) (
-											    ; Aqui se rota la lista en direccion de caddddr s
-                                               list (
+                                   cond ((equal? (car (cddddr listaRot)) (cadr listaRot) ) (writeln (
 						     ;car s
-						     rotacion
+						     rotar
 						     ; N del cubo
 						     (cadr s)
 						     ; Cubo orientado
@@ -1100,7 +1122,21 @@ Entradas:
 						     ;Numero de la cara donde se va a hacer el cambio
 						     (+ (car listaRot) 2)
 						     ;Direccion
-						     (cadddr listaRot)
+						     (* (cadddr listaRot) -1)
+						     ))(
+											    ; Aqui se rota la lista en direccion de caddddr s
+                                               list (
+						     ;car s
+						     rotar
+						     ; N del cubo
+						     (cadr s)
+						     ; Cubo orientado
+						     ; orientar antes de iniciar la rotacion
+						     (car s)
+						     ;Numero de la cara donde se va a hacer el cambio
+						     (+ (car listaRot) 2)
+						     ;Direccion
+						     (* (cadddr listaRot) -1)
 						     ) (cadr s) 
 					       '()
 					       (cadddr s) (car (cddddr s)) (cadr (cddddr s))
