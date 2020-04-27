@@ -1086,21 +1086,57 @@ Entradas:
                                                                              ((equal? "y" ( caddr (caddr s)  ) ) (
                                  combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
                                  ; Aqui se rota el cubo completo, rotate-x rota a la izquierda y derecha y rotate-y rota hacia arriba y abajo
-                                 (rotate-x/center (pintarV (car s)  -1 '(#f) (cadr s) 1 -1)
+                                 (rotate-x/center (pintarV (cadr (
+							    cambiar_agrupacion 
+							    ;N del cubo
+							    (cadr s)
+							    ; Cubo identificado (x cubo)
+							    (list 
+							      (cond ((equal? "x" (car (cddddr s))) 'x)
+								    (else 'y)
+								    )
+							      (car s) )
+							    ; De que manera quiero orientarlo 
+							    'y
+							    )) -1 '(#f) (cadr s) 1 -1)
+
                                                   ; Se dividen los grados que hay que rotar por la cantidad de frames en los que hay que hacerlo y se multiplica
                                                   ; por los frames que se llevan
-                                                  (*  (/ (* -1 (cadddr (caddr s) )) (car (cddddr (caddr s) ))) (cadr (caddr s) ) )
-                                                  ) ))
+                                                  (* -1 (*  (/ (cadddr (caddr s) ) (car (cddddr (caddr s) ))) (cadr (caddr s) ) )) ) ))
                                                                              
                                                                         ))
                                   ; Hay que rotar una cara
                                   (else (
 					 cond ((equal? "y" (caddr (caddr s) )) 
 					       (combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
-							(pintarV (car s) -1 (caddr s) (cadr s) 1 -1)) )
+							(pintarV (cadr (
+							    cambiar_agrupacion 
+							    ;N del cubo
+							    (cadr s)
+							    ; Cubo identificado (x cubo)
+							    (list 
+							      (cond ((equal? "x" (car (cddddr s))) 'x)
+								    (else 'y)
+								    )
+							      (car s) )
+							    ; De que manera quiero orientarlo 
+							    'y
+							    )) -1 (caddr s) (cadr s) 1 -1)) )
 					 ((equal? "x" (caddr (caddr s) )) 
 					       (combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
-							(pintarH (car s) -1 (caddr s) (cadr s) 1 -1)) )
+							(pintarH (cadr (
+							    cambiar_agrupacion 
+							    ;N del cubo
+							    (cadr s)
+							    ; Cubo identificado (x cubo)
+							    (list 
+							      (cond ((equal? "x" (car (cddddr s))) 'x)
+								    (else 'y)
+								    )
+							      (car s) )
+							    ; De que manera quiero orientarlo 
+							    'x
+							    )) -1 (caddr s) (cadr s) 1 -1)) )
                                    
 					)
 
