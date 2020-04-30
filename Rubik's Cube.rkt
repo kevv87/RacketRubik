@@ -221,7 +221,7 @@ ________________________________________________________/Funciones para aplicar 
 
 #|
 *Funcion: rotar
-*Argumentos: tamano cubo, cubo, contador cara, direccion (+ o -) '+
+*Argumentos: tamano cubo, cubo, contador cara, direccion (+90 o -90) '+
 *Devuelve: cubo resultante de la rotacion a una de sus caras
 |#
 (define (rotar X Cubo Num_cara Direccion)
@@ -270,17 +270,197 @@ ________________________________________________________/Funciones para aplicar 
          (cons (caras_moviles X (rotar+ X (car Cubo) X 1)) (rotacion X (cdr Cubo) Direccion (- Contador_caras 1))))
         ((< Direccion 0)
          (cons (caras_moviles X (rotar- X (car Cubo) 1 X)) (rotacion X (cdr Cubo) Direccion (- Contador_caras 1))))))
+
+
+#|
+*Funcion: reordenar (se aplica despues de la rotacion)
+*Argumentos: tamano cubo, cubo, numero de cara, direccion (+90 o -90)
+*Devuelve: cubo resultante de la reorganizacion de colores en la cara movida
+|#
+(define (reordenar X Cubo Cara Direccion)
+  (cond ((> Direccion 0)   ;Si la rotacion fue en el eje +y
+         (cond ((equal? Cara 1)   ;Si la cara rotada es la primera (de izq a der)
+                (reord_primera_cara+ X Cubo))
+               ((equal? Cara X)   ;Si la cara rotada es la ultima (de izq a der)
+                (reord_ultima_cara+ X Cubo))
+               (else (reord_cara_centro X Cubo Cara))))   ;Si la cara rotada corresponde a las del medio
+        ((< Direccion 0)   ;Si la rotacion fue en el eje -y
+         (cond ((equal? Cara 1)   ;Si la cara rotada es la primera (de izq a der)
+                (reord_primera_cara- X Cubo))   
+               ((equal? Cara X)   ;Si la cara rotada es la ultima (de izq a der)
+                (reord_ultima_cara- X Cubo))
+               (else (reord_cara_centro X Cubo Cara))))))   ;No hay distincion de direccion porque no aplica al patron de cambio
+
+#|
+*Funcion: get_cara 
+*Argumentos: cubo (individual), numero de cara
+*Devuelve: cara que corresponde a la columna N
+|#
+(define (get_cara Cubo Cara)
+  (cond ((equal? Cara 1)
+         (car Cubo))
+        (else (get_cara (cdr Cubo) (- Cara 1)))))
+
          
+#|
+*Funcion: reord_primera_cara+
+*Argumentos: tamano cubo, cubo
+*Devuelve: cubo con la primer cara reorganizada segun rotacion +y
+|#      
+(define (reord_primera_cara+ X Cont_fila Nueva_Fila Cubito Cara_orig)
+  (cond ((> Cont_fila X)   ;Si la fila excede el tamano, termina
+         '())
+        ((> Cubito X)   ;Si el cubito excede el tamano, completa esa fila y sigue
+         (cons Nueva_Fila (reord_primera_cara+ X (+ Cont_fila 1) '() 1 (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (equal? Cont_fila 1))   ;Si esta en la primer esquina
+         (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(1 3 2) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (equal? Cont_fila 1))   ;Si esta en la segunda esquina
+         (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(3 1 2) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (equal? Cont_fila X))   ;Si esta en la tercera esquina
+         (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(3 2 1) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (equal? Cont_fila X))   ;Si esta en la cuarta esquina
+         (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(2 3 1) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (and (not (equal? Cont_fila 1)) (not (equal? Cont_fila X))))   ;Si esta en la arista de la cara trasera (fondo)
+         (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cont_fila X) (and (not (equal? Cubito 1)) (not (equal? Cubito X))))   ;Si esta en la arista de la cara base (suelo)
+         (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        (else (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
+        
+
+        
+
+#|
+*Funcion: reord_primer_cara-
+*Argumentos: tamano cubo, cubo
+*Devuelve: cubo con la primer cara reorganizada segun rotacion -y
+|#
+(define (reord_primera_cara- X Cont_fila Nueva_Fila Cubito Cara_orig)
+  (cond ((> Cont_fila X)   ;Si la fila excede el tamano, termina
+         '())
+        ((> Cubito X)   ;Si el cubito excede el tamano, completa esa fila y sigue
+         (cons Nueva_Fila (reord_primera_cara+ X (+ Cont_fila 1) '() 1 (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (equal? Cont_fila 1))   ;Si esta en la primer esquina
+         (reord_primera_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(2 3 1) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (equal? Cont_fila 1))   ;Si esta en la segunda esquina
+         (reord_primera_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(1 3 2) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (equal? Cont_fila X))   ;Si esta en la tercera esquina
+         (reord_primera_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(3 1 2) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (equal? Cont_fila X))   ;Si esta en la cuarta esquina
+         (reord_primera_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(3 2 1) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (and (not (equal? Cont_fila 1)) (not (equal? Cont_fila X))))   ;Si esta en la arista de la cara trasera (fondo)
+         (reord_primera_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cont_fila X) (and (not (equal? Cubito 1)) (not (equal? Cubito X))))   ;Si esta en la arista de la cara base (suelo)
+         (reord_primera_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        (else (reord_primera_cara- X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
+
+
+
+#|
+*Funcion: reord_ultima_cara+
+*Argumentos: tamano cubo, cubo
+*Devuelve: cubo con la ultima cara reorganizada segun rotacion +y
+|#  
+(define (reord_ultima_cara+ X Cont_fila Nueva_Fila Cubito Cara_orig)
+  (cond ((> Cont_fila X)   ;Si la fila excede el tamano, termina
+         '())
+        ((> Cubito X)   ;Si el cubito excede el tamano, completa esa fila y sigue
+         (cons Nueva_Fila (reord_ultima_cara+ X (+ Cont_fila 1) '() 1 (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (equal? Cont_fila 1))   ;Si esta en la primer esquina
+         (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(3 2 1) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (equal? Cont_fila 1))   ;Si esta en la segunda esquina
+         (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(2 3 1) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (equal? Cont_fila X))   ;Si esta en la tercera esquina
+         (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(1 3 2) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (equal? Cont_fila X))   ;Si esta en la cuarta esquina
+         (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(3 1 2) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (and (not (equal? Cont_fila 1)) (not (equal? Cont_fila X))))   ;Si esta en la arista de la cara delantera (frente)
+         (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cont_fila 1) (and (not (equal? Cubito 1)) (not (equal? Cubito X))))   ;Si esta en la arista de la cara superior (arriba)
+         (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        (else (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
+
+
+
+
+
+#|
+*Funcion: reord_ultima_cara-
+*Argumentos: tamano cubo, cubo
+*Devuelve: cubo con la ultima cara reorganizada segun rotacion -y
+|# 
+(define (reord_ultima_cara- X Cont_fila Nueva_Fila Cubito Cara_orig)
+  (cond ((> Cont_fila X)   ;Si la fila excede el tamano, termina
+         '())
+        ((> Cubito X)   ;Si el cubito excede el tamano, completa esa fila y sigue
+         (cons Nueva_Fila (reord_ultima_cara- X (+ Cont_fila 1) '() 1 (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (equal? Cont_fila 1))   ;Si esta en la primer esquina
+         (reord_ultima_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(3 1 2) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (equal? Cont_fila 1))   ;Si esta en la segunda esquina
+         (reord_ultima_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(3 2 1) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito X) (equal? Cont_fila X))   ;Si esta en la tercera esquina
+         (reord_ultima_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(2 3 1) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (equal? Cont_fila X))   ;Si esta en la cuarta esquina
+         (reord_ultima_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_3 '(1 3 2) (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cubito 1) (and (not (equal? Cont_fila 1)) (not (equal? Cont_fila X))))   ;Si esta en la arista de la cara delantera (frente)
+         (reord_ultima_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        ((and (equal? Cont_fila 1) (and (not (equal? Cubito 1)) (not (equal? Cubito X))))   ;Si esta en la arista de la cara superior (arriba)
+         (reord_ultima_cara- X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        (else (reord_ultima_cara- X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
+
+
+#|
+*Funcion: reord_cara_centro
+*Argumentos: tamano cubo, cubo
+*Devuelve: cubo con la cara pertinente reorganizada (indiferente de direccion)
+|#  
+(define (reord_cara_centro Cara)
+  (list 1 2))
+
+
+#|
+*Funcion: reacomodar_3
+*Argumentos: lista del nuevo orden de los colores, cubito de 3 colores, nuevo cubito reacomodado
+*Devuelve: nuevo cubito de 3 colores reacomodado
+|#
+(define (reacomodar_3 Orden Cubito)
+  (cond ((null? Orden)   ;Si la lista de orden se vacio, retorna el nuevo cubito
+         '())
+        ((equal? (car Orden) 1)    ;Si sigue el primer elemento del cubo original
+         (cons (car Cubito) (reacomodar_3 (cdr Orden) Cubito)))
+        ((equal? (car Orden) 2)    ;Si sigue el segundo elemento del cubo original
+         (cons (cadr Cubito) (reacomodar_3 (cdr Orden) Cubito )))
+        ((equal? (car Orden) 3)    ;Si sigue el tercer elemento del cubo original
+         (cons (caddr Cubito) (reacomodar_3 (cdr Orden) Cubito)))))
+
+#|
+*Funcion: reacomodar_2
+*Argumentos: cubito de 2 colores
+*Devuelve: nuevo cubito de 2 colores reacomodado
+|#
+(define (reacomodar_2 Cubito)
+  (list (cadr Cubito) (car Cubito)))   ;Solo basta con reacomodar sus dos elementos
+
+
+
+
+#|                                                       _______________________________
+________________________________________________________/Elementos para realizar pruebas\________________________________________________________
+|#
 
 (define cubo3_format (format_x 3 cubo_3x3 1 1))
 (define cubo3_caras (caras_moviles 3 cubo3_format))
 (define cubo3_id (identificar 'x cubo3_caras))
+(define cubo3_idY (cambiar_agrupacion 3 cubo3_id 'y))
 ;(define cubo3_id (identificar 3 'x cubo_3x3))
 (define cubo3_en_Y '(y
   ((((naran blanc azul) (naran azul) (naran amar azul)) ((blanc naran) (naran) (naran amar)) ((blanc naran verd) (naran verde) (naran amar verd)))
    (((blanc azul) (azul) (amar azul)) ((blanc) (X) (amar)) ((blanc verd) (verde) (amar verd)))
    (((blanc rojo azul) (rojo azul) (amar rojo azul)) ((blanc rojo) (rojo) (amar rojo)) ((blanc rojo verd) (rojo verd) (amar rojo verd))))))
 ;(define cubo4_id (identificar 4 'x cubo_4x4))
+(define cubo4_format (format_x 4  cubo_4x4 1 1))
+(define cubo4_caras (caras_moviles 4 cubo4_format))
+(define cubo4_id (identificar 'x cubo4_caras))
+(define cubo4_idY (cambiar_agrupacion 4 cubo4_id 'y))
 (define cubo4_en_Y '(y
   ((((naran blanc azul) (naran azul) (naran azul) (naran amar azul)) ((blanc naran) (naran) (naran) (naran amar)) ((blanc naran) (naran) (naran) (naran amar)) ((blanc naran verd) (naran verd) (naran verd) (naran amar verd)))
    (((blanc azul) (azul) (azul) (amar azul)) ((blanc) (X) (X) (amar)) ((blanc) (X) (X) (amar)) ((blanc verd) (verd) (verd) (amar verd)))
