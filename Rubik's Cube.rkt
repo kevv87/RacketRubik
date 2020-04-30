@@ -413,13 +413,29 @@ ________________________________________________________/Funciones para aplicar 
 *Argumentos: tamano cubo, cubo
 *Devuelve: cubo con la cara pertinente reorganizada (indiferente de direccion)
 |#  
-(define (reord_cara_centro Cara)
-  (list 1 2))
+(define (reord_cara_centro X Cont_fila Nueva_Fila Cubito Cara_orig)
+  (cond ((> Cont_fila X)   ;Si la fila excede el tamano, termina
+         '())
+        ((> Cubito X)   ;Si el cubito excede el tamano, completa esa fila y sigue
+         (cons Nueva_Fila (reord_cara_centro X (+ Cont_fila 1) '() 1 (cdr Cara_orig))))
+        ((equal? (length (caar Cara_orig) 0) 2)  ;Si no es un cubo sin color () o un cubo de un solo elemento (2), respectivamente; es decir, uno de dos colores
+               (reord_cara_centro X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
+        (else (reord_cara_centro X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
 
 
 #|
+*Funcion: length
+*Argumentos: lista, contador
+*Devuelve: tamano de la lista
+|#  
+(define (length lista contador)
+  (cond ((null? lista)
+         contador)
+        (else (length (cdr lista) (+ contador 1)))))
+
+#|
 *Funcion: reacomodar_3
-*Argumentos: lista del nuevo orden de los colores, cubito de 3 colores, nuevo cubito reacomodado
+*Argumentos: lista del nuevo orden de los colores, cubito de 3 colores
 *Devuelve: nuevo cubito de 3 colores reacomodado
 |#
 (define (reacomodar_3 Orden Cubito)
