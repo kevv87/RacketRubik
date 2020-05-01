@@ -1,6 +1,6 @@
 #lang racket
 (define lista '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54))
-(define cubo_3x3 '((rgba "orange") (rgba "white") (rgba "blue") (rgba "white") (rgba "blue") (rgba "white") (rgba "red") (rgba "blue") (rgba "orange") (rgba "blue") (rgba "blue") (rgba "red") (rgba "blue") (rgba "orange") (rgba "yellow") (rgba "blue") (rgba "yellow") (rgba "blue") (rgba "yellow") (rgba "red") (rgba "blue") (rgba "white") (rgba "orange") (rgba "white") (rgba "white") (rgba "red") (rgba "orange") () (rgba "red") (rgba "orange") (rgba "yellow") (rgba "yellow") (rgba "yellow") (rgba "red") (rgba "white") (rgba "orange") (rgba "green") (rgba "white") (rgba "green") (rgba "white") (rgba "red") (rgba "green") (rgba "orange") (rgba "green") (rgba "green") (rgba "red") (rgba "green") (rgba "orange") (rgba "yellow") (rgba "green") (rgba "yellow") (rgba "green") (rgba "yellow") (rgba "red") (rgba "green")))
+(define cubo_3x3 '((rgba "orange") (rgba "white") (rgba "blue") (rgba "white") (rgba "blue") (rgba "white") (rgba "red") (rgba "blue") (rgba "orange") (rgba "blue") (rgba "blue") (rgba "red") (rgba "blue") (rgba "orange") (rgba "yellow") (rgba "blue") (rgba "yellow") (rgba "blue") (rgba "yellow") (rgba "red") (rgba "blue") (rgba "orange") (rgba "white") (rgba "white") (rgba "white") (rgba "red") (rgba "orange") () (rgba "red") (rgba "orange") (rgba "yellow") (rgba "yellow") (rgba "yellow") (rgba "red") (rgba "orange") (rgba "white") (rgba "green") (rgba "white") (rgba "green") (rgba "white") (rgba "red") (rgba "green") (rgba "orange") (rgba "green") (rgba "green") (rgba "red") (rgba "green") (rgba "orange") (rgba "yellow") (rgba "green") (rgba "yellow") (rgba "green") (rgba "yellow") (rgba "red") (rgba "green")))
 (define cubo_4x4 '((rgba "orange") (rgba "white") (rgba "blue") (rgba "white") (rgba "blue") (rgba "white") (rgba "blue") (rgba "white") (rgba "red") (rgba "blue") (rgba "orange") (rgba "blue") (rgba "blue") (rgba "blue") (rgba "red") (rgba "blue") (rgba "orange") (rgba "blue") (rgba "blue") (rgba "blue") (rgba "red") (rgba "blue") (rgba "orange") (rgba "yellow") (rgba "blue") (rgba "yellow") (rgba "blue") (rgba "yellow") (rgba "blue") (rgba "yellow") (rgba "red") (rgba "blue") (rgba "white") (rgba "orange") (rgba "white") (rgba "white") (rgba "white") (rgba "red") (rgba "orange") () () (rgba "red") (rgba "orange") () () (rgba "red") (rgba "orange") (rgba "yellow") (rgba "yellow") (rgba "yellow") (rgba "yellow") (rgba "red") (rgba "white") (rgba "orange") (rgba "white") (rgba "white") (rgba "white") (rgba "red") (rgba "orange") () () (rgba "red") (rgba "orange") () () (rgba "red") (rgba "orange") (rgba "yellow") (rgba "yellow") (rgba "yellow") (rgba "yellow") (rgba "red") (rgba "white") (rgba "orange") (rgba "green") (rgba "white") (rgba "green") (rgba "white") (rgba "green") (rgba "white") (rgba "red") (rgba "green") (rgba "orange") (rgba "green") (rgba "green") (rgba "green") (rgba "green") (rgba "red") (rgba "orange") (rgba "green") (rgba "green") (rgba "green") (rgba "red") (rgba "green") (rgba "orange") (rgba "yellow") (rgba "green") (rgba "yellow") (rgba "green") (rgba "yellow") (rgba "green") (rgba "yellow") (rgba "red") (rgba "green")))
 (define cubo_kevin '((rgba "green") (rgba "red") (rgba "yellow") (rgba "white") (rgba "orange") (rgba "orange") (rgba "white") (rgba "blue") (rgba "blue") (rgba "white") (rgba "white") (rgba "green") (rgba "yellow") (rgba "blue") (rgba "red") (rgba "yellow") (rgba "green") (rgba "orange")  (rgba "orange") (rgba "blue") (rgba "yellow") (rgba "red") (rgba "blue") (rgba "blue")  (rgba "white") (rgba "green") (rgba "red") () (rgba "orange")  (rgba "red") (rgba "green") (rgba "green")  (rgba "blue") (rgba "yellow") (rgba "green") (rgba "white") (rgba "orange")  (rgba "blue") (rgba "orange") (rgba "red") (rgba "green") (rgba "white") (rgba "yellow") (rgba "red") (rgba "yellow") (rgba "yellow") (rgba "orange")  (rgba "blue") (rgba "red") (rgba "white") (rgba "white") (rgba "red") (rgba "yellow") (rgba "orange") (rgba "green")))
 
@@ -29,10 +29,10 @@ ________________________________________________________/Ejecucion del juego\___
         ((equal? (substring (car Movs) 0 1) "C")   ;Para el cubo agrupado verticalmente
          (cond ((equal? (substring (car Movs) 2 3) "A")   ;Para direccion positiva de rotacion
                 (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) 90)   ;Aplica rotacion + en Y
-                (aplic_movs X (cambiar_agrupacion X (identificar 'y (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) 90)) 'x) (cdr Movs)))
+                (aplic_movs X (cambiar_agrupacion X (identificar 'y (reordenar X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) 90) (string->number (substring (car Movs) 1 2)) (string->number (substring (car Movs) 1 2)) 90)) 'x) (cdr Movs)))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
                ((equal? (substring (car Movs) 2 3) "B")   ;Para direccion negativa de rotacion
                 (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) -90)   ;;Aplica rotacion - en X
-                (aplic_movs X (cambiar_agrupacion X (identificar 'y (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) -90)) 'x) (cdr Movs)))))))
+                (aplic_movs X (cambiar_agrupacion X (identificar 'y (reordenar X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) -90) (string->number (substring (car Movs) 1 2)) (string->number (substring (car Movs) 1 2)) -90)) 'x) (cdr Movs)))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
 
 ;Function that creates a cube of nxn if there's no cube input
 (define (cubo_standard X)
@@ -274,22 +274,25 @@ ________________________________________________________/Funciones para aplicar 
 
 #|
 *Funcion: reordenar (se aplica despues de la rotacion)
-*Argumentos: tamano cubo, cubo, numero de cara, direccion (+90 o -90)
-*Devuelve: cubo resultante de la reorganizacion de colores en la cara movida
+*Argumentos: tamano cubo, cubo, numero de cara, contador de cara (regresivo), direccion (+90 o -90)
+*Devuelve: cubo resultante de la reorganizacion de colores en la cara rotada
 |#
-(define (reordenar X Cubo Cara Direccion)
-  (cond ((> Direccion 0)   ;Si la rotacion fue en el eje +y
-         (cond ((equal? Cara 1)   ;Si la cara rotada es la primera (de izq a der)
-                (reord_primera_cara+ X Cubo))
-               ((equal? Cara X)   ;Si la cara rotada es la ultima (de izq a der)
-                (reord_ultima_cara+ X Cubo))
-               (else (reord_cara_centro X Cubo Cara))))   ;Si la cara rotada corresponde a las del medio
-        ((< Direccion 0)   ;Si la rotacion fue en el eje -y
-         (cond ((equal? Cara 1)   ;Si la cara rotada es la primera (de izq a der)
-                (reord_primera_cara- X Cubo))   
-               ((equal? Cara X)   ;Si la cara rotada es la ultima (de izq a der)
-                (reord_ultima_cara- X Cubo))
-               (else (reord_cara_centro X Cubo Cara))))))   ;No hay distincion de direccion porque no aplica al patron de cambio
+(define (reordenar X Cubo Cara Cont_cara Direccion)
+  (cond ((equal? Cont_cara 1)
+         (cond ((> Direccion 0)   ;Si la rotacion fue en el eje +y
+                (cond ((equal? Cara 1)   ;Si la cara rotada es la primera (de izq a der)
+                       (cons (reord_primera_cara+ X 1 '() 1 (car Cubo)) (cdr Cubo)))
+                      ((equal? Cara X)   ;Si la cara rotada es la ultima (de izq a der)
+                       (reord_ultima_cara+ X 1 '() 1 (car Cubo)))
+                      (else (cons (reord_cara_centro X 1 '() 1 (car Cubo)) (cdr Cubo)))))   ;Si la cara rotada corresponde a las del medio
+               ((< Direccion 0)   ;Si la rotacion fue en el eje -y
+                (cond ((equal? Cara 1)   ;Si la cara rotada es la primera (de izq a der)
+                       (cons (reord_primera_cara- X 1 '() 1 (car Cubo)) (cdr Cubo)))   
+                      ((equal? Cara X)   ;Si la cara rotada es la ultima (de izq a der)
+                       (reord_ultima_cara- X 1 '() 1 (car Cubo)))
+                      (else (cons (reord_cara_centro X 1 '() 1 (car Cubo)) (cdr Cubo)))))))   ;No hay distincion de direccion porque no aplica al patron de cambio
+        (else (cons (car Cubo) (reordenar X (cdr Cubo) Cara (- Cont_cara 1) Direccion)))))
+
 
 #|
 *Funcion: get_cara 
@@ -325,9 +328,7 @@ ________________________________________________________/Funciones para aplicar 
         ((and (equal? Cont_fila X) (and (not (equal? Cubito 1)) (not (equal? Cubito X))))   ;Si esta en la arista de la cara base (suelo)
          (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
         (else (reord_primera_cara+ X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
-        
 
-        
 
 #|
 *Funcion: reord_primer_cara-
@@ -354,7 +355,6 @@ ________________________________________________________/Funciones para aplicar 
         (else (reord_primera_cara- X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
 
 
-
 #|
 *Funcion: reord_ultima_cara+
 *Argumentos: tamano cubo, cubo
@@ -378,9 +378,6 @@ ________________________________________________________/Funciones para aplicar 
         ((and (equal? Cont_fila 1) (and (not (equal? Cubito 1)) (not (equal? Cubito X))))   ;Si esta en la arista de la cara superior (arriba)
          (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
         (else (reord_ultima_cara+ X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
-
-
-
 
 
 #|
@@ -433,6 +430,7 @@ ________________________________________________________/Funciones para aplicar 
          contador)
         (else (length (cdr lista) (+ contador 1)))))
 
+
 #|
 *Funcion: reacomodar_3
 *Argumentos: lista del nuevo orden de los colores, cubito de 3 colores
@@ -447,6 +445,7 @@ ________________________________________________________/Funciones para aplicar 
          (cons (cadr Cubito) (reacomodar_3 (cdr Orden) Cubito )))
         ((equal? (car Orden) 3)    ;Si sigue el tercer elemento del cubo original
          (cons (caddr Cubito) (reacomodar_3 (cdr Orden) Cubito)))))
+
 
 #|
 *Funcion: reacomodar_2
