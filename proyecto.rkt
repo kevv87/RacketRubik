@@ -410,7 +410,7 @@ ________________________________________________________/Funciones para aplicar 
          '())
         ((> Cubito X)   ;Si el cubito excede el tamano, completa esa fila y sigue
          (cons Nueva_Fila (reord_cara_centro X (+ Cont_fila 1) '() 1 (cdr Cara_orig))))
-        ((equal? (length (caar Cara_orig) 0) 2)  ;Si no es un cubo sin color () o un cubo de un solo elemento (2), respectivamente; es decir, uno de dos colores
+        ((equal? (length_logic (caar Cara_orig) 0) 2)  ;Si no es un cubo sin color () o un cubo de un solo elemento (2), respectivamente; es decir, uno de dos colores
                (reord_cara_centro X Cont_fila (append Nueva_Fila (list (reacomodar_2 (caar Cara_orig)))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))
         (else (reord_cara_centro X Cont_fila (append Nueva_Fila (list (caar Cara_orig))) (+ Cubito 1) (cons (cdar Cara_orig) (cdr Cara_orig))))))   ;Si no corresponde a un cubito que se altere, lo anade a la lista
 
@@ -420,10 +420,10 @@ ________________________________________________________/Funciones para aplicar 
 *Argumentos: lista, contador
 *Devuelve: tamano de la lista
 |#  
-(define (length lista contador)
+(define (length_logic lista contador)
   (cond ((null? lista)
          contador)
-        (else (length (cdr lista) (+ contador 1)))))
+        (else (length_logic (cdr lista) (+ contador 1)))))
 
 
 #|
