@@ -13,6 +13,44 @@
 #|                                                       ___________________
 ________________________________________________________/Ejecucion del juego\________________________________________________________
 |#
+
+;Funcion auxiliar encargada de convertir que movimiento individual
+(define (traducir_aux movimiento)
+  (
+   list
+   ;Primer elemento, eje
+   (
+    cond
+    ((equal? (substring movimiento 0 1) "C") "x")
+    (else "y")
+    )
+   ;Segundo elemento, direccion
+   (
+    cond ;Si es igual a D o A, entonces es positiva, si no negativa
+    ((or (equal? (substring movimiento 2) "D") (equal? (substring movimiento 2) "A") ) 90)
+    (else (- 0 90))
+    )
+   ;Tercer elemento, linea
+   (
+    - (string->number (substring movimiento 1 2) ) 2
+    )
+   )
+  )
+
+
+; Funcion encargada de traducir los Movs del profe a movimientos de la interfaz
+(define (traducirMovs Movs)
+  (
+   cond 
+   ((null? Movs) Movs)
+   (else (
+	  cons (traducir_aux (car Movs)) (traducirMovs (cdr Movs))
+	  ))
+   )
+  )
+
+(traducirMovs '("C2A" "C3B" "F1D" "F2I"))
+
 ;Funcion que simula un cubo de Rubik
 (define (RS X Cubo Movs)
   (cond ((> (round X) 1)
@@ -1488,7 +1526,7 @@ Funciones principales
 ;(on-draw 0 0 0)
 
 ; Sin rotacion
-(big-bang3d
+#;(big-bang3d
  
  '(
                        ;Lista del cubo
