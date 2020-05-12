@@ -101,47 +101,47 @@ ________________________________________________________/Ejecucion del juego\___
 
    ;Esquinas
    ((and (equal? i 1) (equal? j 1) (equal? k 1))
-    (cons '((rgba "white") (rgba "yellow") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+    (cons '((rgba "white") (rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
    ((and (equal? i 1) (equal? j 1) (equal? k x)) 
-    (cons '((rgba "red") (rgba "yellow") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+    (cons '((rgba "yellow") (rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
    ((and (equal? i 1) (equal? j x) (equal? k 1)) 
-    (cons '((rgba "white") (rgba "green") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+    (cons '((rgba "white") (rgba "blue") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
    ((and (equal? i 1) (equal? j x) (equal? k x)) 
-    (cons '((rgba "green") (rgba "red") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+    (cons '((rgba "blue") (rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
    ((and (equal? i x) (equal? j 1) (equal? k 1)) 
-    (cons '((rgba "white") (rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+    (cons '((rgba "white") (rgba "green") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
    ((and (equal? i x) (equal? j 1) (equal? k x)) 
     (cons '((rgba "red") (rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
    ((and (equal? i x) (equal? j x) (equal? k 1)) 
-    (cons '((rgba "white") (rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+    (cons '((rgba "white") (rgba "blue") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
    ((and (equal? i x) (equal? j x) (equal? k x)) 
-    (cons '((rgba "green") (rgba "red") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+    (cons '((rgba "blue") (rgba "yellow") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
 
    ;Colores
    ((equal? i 1)
     (
      cond
      ((equal? j 1)
-      (cons '((rgba "yellow") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+      (cons '((rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
      ((equal? j x)
-      (cons '((rgba "green") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+      (cons '((rgba "blue") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
      (else (
 	    cond
-	    ((equal? k 1) (cons '((rgba "white") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
-	    ((equal? k x) (cons '((rgba "red") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
-	    (else (cons '((rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+	    ((equal? k 1) (cons '((rgba "white") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+	    ((equal? k x) (cons '((rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+	    (else (cons '((rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
 	    ))
      ))
    ((equal? i x)
     (
      cond
-     ((equal? j 1) (cons '((rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
-     ((equal? j x) (cons '((rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+     ((equal? j 1) (cons '((rgba "green") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+     ((equal? j x) (cons '((rgba "blue") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
      (else (
 	    cond
-	    ((equal? k 1) (cons '((rgba "white") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
-	    ((equal? k x) (cons '((rgba "red") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
-	    (else (cons '((rgba "orange") ) (cubo_standard_aux i j (+ k 1) x) ))
+	    ((equal? k 1) (cons '((rgba "white") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+	    ((equal? k x) (cons '((rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+	    (else (cons '((rgba "red") ) (cubo_standard_aux i j (+ k 1) x) ))
 	    ))
      ))
    (else (
@@ -149,22 +149,22 @@ ________________________________________________________/Ejecucion del juego\___
 	  ((equal? j 1)
 	   (
 	    cond
-	    ((equal? k 1) (cons '((rgba "white") (rgba "yellow")) (cubo_standard_aux i j (+ k 1) x) ))
-	    ((equal? k x) (cons '((rgba "red") (rgba "yellow")) (cubo_standard_aux i j (+ k 1) x) ))
-	    (else (cons '( (rgba "yellow")) (cubo_standard_aux i j (+ k 1) x) ))
+	    ((equal? k 1) (cons '((rgba "white") (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
+	    ((equal? k x) (cons '((rgba "yellow") (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
+	    (else (cons '( (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
 	    ))
 	  ((equal? j x)
 	   (
 	    cond
-	    ((equal? k 1) (cons '((rgba "white") (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
-	    ((equal? k x) (cons '((rgba "green") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
-	    (else (cons '((rgba "green") ) (cubo_standard_aux i j (+ k 1) x) ))
+	    ((equal? k 1) (cons '((rgba "white") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+	    ((equal? k x) (cons '((rgba "blue") (rgba "yellow")) (cubo_standard_aux i j (+ k 1) x) ))
+	    (else (cons '((rgba "blue") ) (cubo_standard_aux i j (+ k 1) x) ))
 	    ))
 	  (else
 	    (
 	     cond
 	     ((equal? k 1) (cons '((rgba "white") ) (cubo_standard_aux i j (+ k 1) x) ))
-	     ((equal? k x) (cons '((rgba "red") ) (cubo_standard_aux i j (+ k 1) x) )) 
+	     ((equal? k x) (cons '((rgba "yellow") ) (cubo_standard_aux i j (+ k 1) x) )) 
 	     )
 	    )
 	  ))
@@ -205,10 +205,10 @@ ________________________________________________________/Funciones para la creac
 (define (RSP X Cubo Movs)
   (cond ((> (round X) 1)
           (cond ((null? Cubo)
-                 (cubo_standard (round X)))   ;Si no ingresa un cubo, genera un cubo NxN estandar
+                 (list  (cubo_standard (round X)) X (traducirMovs Movs) '() "x" '()  ))   ;Si no ingresa un cubo, genera un cubo NxN estandar
                 (else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
         (else #f)))
-(RSP 3 '() '())
+(RSP 3 '() '("C3A" "F2D"))
 
 #|
 *Funcion: centro_cara
