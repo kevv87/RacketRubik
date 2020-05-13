@@ -15,24 +15,26 @@ ________________________________________________________/Ejecucion del juego\___
                 (else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
         (else #f)))
 
-;Funcion que aplica los movimientos sobre el cubo
-(define (aplic_movs X Cubo_identificado Movs)
-  (cond ((null? Movs)
-         Cubo_identificado)
-        ((equal? (substring (car Movs) 0 1) "F")   ;Para el cubo agrupado horizontalmente
-         (cond ((equal? (substring (car Movs) 2 3) "D")   ;Para direccion positiva de rotacion
-                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) 90)   ;Aplica rotacion + en X
-                (aplic_movs X (identificar 'x (reordenar_x X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) 90) (string->number (substring (car Movs) 1 2)) (string->number (substring (car Movs) 1 2)) 90)) (cdr Movs)))   ;(llamada recursiva (identifica agrupacion en 'x (reordena colores +x (aplica rotacion))))
-               ((equal? (substring (car Movs) 2 3) "I")   ;Para direccion negativa de rotacion
-                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) -90)   ;;Aplica rotacion - en X
-                (aplic_movs X (identificar 'x (reordenar_x X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (string->number (substring (car Movs) 1 2)) -90) (string->number (substring (car Movs) 1 2)) (string->number (substring (car Movs) 1 2)) -90)) (cdr Movs)))))   ;(llamada recursiva (identifica agrupacion en 'x (reordena colores -x (aplica rotacion))))
-        ((equal? (substring (car Movs) 0 1) "C")   ;Para el cubo agrupado verticalmente
-         (cond ((equal? (substring (car Movs) 2 3) "A")   ;Para direccion positiva de rotacion
-                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) 90)   ;Aplica rotacion + en Y
-                (aplic_movs X (cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) 90) (string->number (substring (car Movs) 1 2)) (string->number (substring (car Movs) 1 2)) 90)) 'x) (cdr Movs)))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
-               ((equal? (substring (car Movs) 2 3) "B")   ;Para direccion negativa de rotacion
-                (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) -90)   ;;Aplica rotacion - en Y
-                (aplic_movs X (cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (string->number (substring (car Movs) 1 2)) -90) (string->number (substring (car Movs) 1 2)) (string->number (substring (car Movs) 1 2)) -90)) 'x) (cdr Movs)))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
+#|
+*Funcion: aplic_movs
+*Argumentos: tamano cubo, cubo identificado por eje, lista con el eje, la direccion y la cara
+*Devuelve: cubo con los cambios pertinentes aplicados
+|#
+(define (aplic_movs X Cubo_identificado EjeDireccionCara)
+  (cond ((equal? (car EjeDireccionCara) 'x)   ;Para el cubo agrupado horizontalmente
+         (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
+                ;Aplica rotacion + en X
+                (identificar 'x (reordenar_x X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)))   ;(llamada recursiva (identifica agrupacion en 'x (reordena colores +x (aplica rotacion))))
+               ((< (cadr EjeDireccionCara) 0)   ;Para direccion negativa de rotacion
+                ;Aplica rotacion - en X
+                (identificar 'x (reordenar_x X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)))))   ;(llamada recursiva (identifica agrupacion en 'x (reordena colores -x (aplica rotacion))))
+        ((equal? (car EjeDireccionCara) 'y)   ;Para el cubo agrupado verticalmente
+         (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
+                ;Aplica rotacion + en Y
+                (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
+               ((< (cadr EjeDireccionCara) 0)   ;Para direccion negativa de rotacion
+                ;Aplica rotacion - en Y
+                (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90))))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
 
 ;Function that creates a cube of nxn if there's no cube input
 (define (cubo_standard X)
