@@ -31,10 +31,12 @@ ________________________________________________________/Ejecucion del juego\___
         ((equal? (car EjeDireccionCara) 'y)   ;Para el cubo agrupado verticalmente
          (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
                 ;Aplica rotacion + en Y
-                (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
+                (cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)) 'x))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
                ((< (cadr EjeDireccionCara) 0)   ;Para direccion negativa de rotacion
                 ;Aplica rotacion - en Y
-                (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
+                (cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)) 'x))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
+
+
 
 ;Function that creates a cube of nxn if there's no cube input
 (define (cubo_standard X)

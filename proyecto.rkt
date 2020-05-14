@@ -67,7 +67,7 @@ ________________________________________________________/Ejecucion del juego\___
 *Argumentos: tamano cubo, cubo identificado por eje, lista con el eje, la direccion y la cara
 *Devuelve: cubo con los cambios pertinentes aplicados
 |#
-(define (aplic_movs X Cubo_identificado EjeDireccionCara)(writeln (list X Cubo_identificado EjeDireccionCara)) 
+(define (aplic_movs X Cubo_identificado EjeDireccionCara)
   (cond ((equal? (car EjeDireccionCara) 'x)   ;Para el cubo agrupado horizontalmente
          (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
                 ;Aplica rotacion + en X
@@ -78,10 +78,10 @@ ________________________________________________________/Ejecucion del juego\___
         ((equal? (car EjeDireccionCara) 'y)   ;Para el cubo agrupado verticalmente
          (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
                 ;Aplica rotacion + en Y
-                (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
+                (cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)) 'x))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
                ((< (cadr EjeDireccionCara) 0)   ;Para direccion negativa de rotacion
                 ;Aplica rotacion - en Y
-                (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
+                (cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)) 'x))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
 
 
 
