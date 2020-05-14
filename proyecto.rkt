@@ -67,7 +67,7 @@ ________________________________________________________/Ejecucion del juego\___
 *Argumentos: tamano cubo, cubo identificado por eje, lista con el eje, la direccion y la cara
 *Devuelve: cubo con los cambios pertinentes aplicados
 |#
-(define (aplic_movs X Cubo_identificado EjeDireccionCara)
+(define (aplic_movs X Cubo_identificado EjeDireccionCara)(writeln (list X Cubo_identificado EjeDireccionCara)) 
   (cond ((equal? (car EjeDireccionCara) 'x)   ;Para el cubo agrupado horizontalmente
          (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
                 ;Aplica rotacion + en X
@@ -210,7 +210,7 @@ ________________________________________________________/Funciones para la creac
                  (list  (cubo_standard (round X)) X (traducirMovs Movs) '() "x" '()  ))   ;Si no ingresa un cubo, genera un cubo NxN estandar
                 (else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
         (else #f)))
-(RSP 3 '() '("C3A" "F2D"))
+;(RSP 3 '() '("C3A" "F2D"))
 
 #|
 *Funcion: centro_cara
@@ -1544,33 +1544,73 @@ Entradas:
 
 
 (define (aumentar-frame listaRot s) (
-                                   cond ((equal? (car (cddddr listaRot)) (cadr listaRot) ) (writeln (
+                                   cond ((equal? (car (cddddr listaRot)) (cadr listaRot) )(writeln (
 						     ;car s
-						     rotar
+						     aplic_movs
 						     ; N del cubo
 						     (cadr s)
 						     ; Cubo orientado
 						     ; orientar antes de iniciar la rotacion
-						     (car s)
-						     ;Numero de la cara donde se va a hacer el cambio
-						     (+ (car listaRot) 2)
+						     (
+							    cambiar_agrupacion 
+							    ;N del cubo
+							    (cadr s)
+							    ; Cubo identificado (x cubo)
+							    (list 
+							      (cond ((equal? "x" (cadr (cddddr s))) 'x)
+								    (else 'y)
+								    )
+							      (car s) )
+							    ; De que manera quiero orientarlo 
+							    'x
+							    )
+						     (list
+						     ;Eje
+						     (cond
+						       ((equal? "x" (car (caddr s))) 'x)
+						       (else 'y)
+						       )
 						     ;Direccion
 						     (* (cadddr listaRot) -1)
-						     ))(
+						     ; Cara
+						     (+ (car listaRot) 2))
+						     ;Numero de la cara donde se va a hacer el cambio
+						     
+						     )) (
 											    ; Aqui se rota la lista en direccion de caddddr s
-                                               list (
+                                               list ( cadr (
 						     ;car s
-						     rotar
+						     aplic_movs
 						     ; N del cubo
 						     (cadr s)
 						     ; Cubo orientado
 						     ; orientar antes de iniciar la rotacion
-						     (car s)
-						     ;Numero de la cara donde se va a hacer el cambio
-						     (+ (car listaRot) 2)
+						     (
+							    cambiar_agrupacion 
+							    ;N del cubo
+							    (cadr s)
+							    ; Cubo identificado (x cubo)
+							    (list 
+							      (cond ((equal? "x" (cadr (cddddr s))) 'x)
+								    (else 'y)
+								    )
+							      (car s) )
+							    ; De que manera quiero orientarlo 
+							    'x
+							    )
+						     (list
+						     ;Eje
+						     (cond
+						       ((equal? "x" (car (caddr s))) 'x)
+						       (else 'y)
+						       )
 						     ;Direccion
 						     (* (cadddr listaRot) -1)
-						     ) (cadr s) 
+						     ; Cara
+						     (+ (car listaRot) 2))
+						     ;Numero de la cara donde se va a hacer el cambio
+						     
+						     )) (cadr s) 
 					       '()
 					       (cadddr s) (car (cddddr s)) (cadr (cddddr s))
                                                ) )
@@ -1710,7 +1750,7 @@ Funciones principales
 ;(on-draw 0 0 0)
 
 ; Sin rotacion
-#;(big-bang3d
+(big-bang3d
  
  '(
                        ;Lista del cubo
