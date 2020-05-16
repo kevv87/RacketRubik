@@ -99,51 +99,51 @@ cond
 
 ;Vacios
 ((and (and (and (> i 1) (< i x)) (and (> j 1) (< j x))) (and (> k 1) (< k x)))
-(cons '() (cubo_standard_aux i j (+ k 1) x)))
+(append '(()) (cubo_standard_aux i j (+ k 1) x)))
 
 ;Esquinas
 ((and (equal? i 1) (equal? j 1) (equal? k 1))
-(cons '((rgba "white") (rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "white") (rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
 ((and (equal? i 1) (equal? j 1) (equal? k x)) 
-(cons '((rgba "yellow") (rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "white") (rgba "blue") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
 ((and (equal? i 1) (equal? j x) (equal? k 1)) 
-(cons '((rgba "white") (rgba "blue") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "yellow") (rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
 ((and (equal? i 1) (equal? j x) (equal? k x)) 
-(cons '((rgba "blue") (rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "blue") (rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
 ((and (equal? i x) (equal? j 1) (equal? k 1)) 
-(cons '((rgba "white") (rgba "green") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "white") (rgba "green") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
 ((and (equal? i x) (equal? j 1) (equal? k x)) 
-(cons '((rgba "red") (rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "white") (rgba "blue") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
 ((and (equal? i x) (equal? j x) (equal? k 1)) 
-(cons '((rgba "white") (rgba "blue") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "yellow") (rgba "green") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
 ((and (equal? i x) (equal? j x) (equal? k x)) 
-(cons '((rgba "blue") (rgba "yellow") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "blue") (rgba "yellow") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
 
 ;Colores
 ((equal? i 1)
 (
 cond
 ((equal? j 1)
-(cons '((rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "white") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
 ((equal? j x)
-(cons '((rgba "blue") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+(append '((rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
 (else (
     cond
-    ((equal? k 1) (cons '((rgba "white") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
-    ((equal? k x) (cons '((rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
-    (else (cons '((rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+    ((equal? k 1) (append '((rgba "green") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+    ((equal? k x) (append '((rgba "blue") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
+    (else (append '((rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
     ))
 ))
 ((equal? i x)
 (
 cond
-((equal? j 1) (cons '((rgba "green") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
-((equal? j x) (cons '((rgba "blue") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+((equal? j 1) (append '((rgba "white") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+((equal? j x) (append '((rgba "yellow") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
 (else (
     cond
-    ((equal? k 1) (cons '((rgba "white") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
-    ((equal? k x) (cons '((rgba "yellow") (rgba "orange")) (cubo_standard_aux i j (+ k 1) x) ))
-    (else (cons '((rgba "red") ) (cubo_standard_aux i j (+ k 1) x) ))
+    ((equal? k 1) (append '((rgba "green") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+    ((equal? k x) (append '((rgba "blue") (rgba "red")) (cubo_standard_aux i j (+ k 1) x) ))
+    (else (append '((rgba "red") ) (cubo_standard_aux i j (+ k 1) x) ))
     ))
 ))
 (else (
@@ -151,22 +151,22 @@ cond
   ((equal? j 1)
    (
     cond
-    ((equal? k 1) (cons '((rgba "white") (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
-    ((equal? k x) (cons '((rgba "yellow") (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
-    (else (cons '( (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
+    ((equal? k 1) (append '((rgba "white") (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
+    ((equal? k x) (append '((rgba "white") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
+    (else (append '( (rgba "white")) (cubo_standard_aux i j (+ k 1) x) ))
     ))
   ((equal? j x)
    (
     cond
-    ((equal? k 1) (cons '((rgba "white") (rgba "blue")) (cubo_standard_aux i j (+ k 1) x) ))
-    ((equal? k x) (cons '((rgba "blue") (rgba "yellow")) (cubo_standard_aux i j (+ k 1) x) ))
-    (else (cons '((rgba "blue") ) (cubo_standard_aux i j (+ k 1) x) ))
+    ((equal? k 1) (append '((rgba "yellow") (rgba "green")) (cubo_standard_aux i j (+ k 1) x) ))
+    ((equal? k x) (append '((rgba "blue") (rgba "yellow")) (cubo_standard_aux i j (+ k 1) x) ))
+    (else (append '((rgba "yellow") ) (cubo_standard_aux i j (+ k 1) x) ))
     ))
   (else
     (
      cond
-     ((equal? k 1) (cons '((rgba "white") ) (cubo_standard_aux i j (+ k 1) x) ))
-     ((equal? k x) (cons '((rgba "yellow") ) (cubo_standard_aux i j (+ k 1) x) )) 
+     ((equal? k 1) (append '((rgba "green") ) (cubo_standard_aux i j (+ k 1) x) ))
+     ((equal? k x) (append '((rgba "blue") ) (cubo_standard_aux i j (+ k 1) x) )) 
      )
     )
   ))
@@ -204,13 +204,7 @@ ________________________________________________________/Funciones para la creac
 )
 )
 
-(define (RSP X Cubo Movs)
-(cond ((> (round X) 1)
-  (cond ((null? Cubo)
-	 (list  (cubo_standard (round X)) X (traducirMovs Movs) '() "x" '()  ))   ;Si no ingresa un cubo, genera un cubo NxN estandar
-	(else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
-(else #f)))
-;(RSP 3 '() '("C3A" "F2D"))
+
 
 #|
 *Funcion: centro_cara
@@ -1544,39 +1538,8 @@ en esencia funciona igual que pintarV|#
 
 
 (define (aumentar-frame listaRot s) (
-			   cond ((equal? (car (cddddr listaRot)) (cadr listaRot) )(writeln (
-					     ;car s
-					     aplic_movs
-					     ; N del cubo
-					     (cadr s)
-					     ; Cubo orientado
-					     ; orientar antes de iniciar la rotacion
-					     (
-						    cambiar_agrupacion 
-						    ;N del cubo
-						    (cadr s)
-						    ; Cubo identificado (x cubo)
-						    (list 
-						      (cond ((equal? "x" (car (cddddr s))) 'x)
-							    (else 'y)
-							    )
-						      (car s) )
-						    ; De que manera quiero orientarlo 
-						    'x
-						    )
-					     (list
-					     ;Eje
-					     (cond
-					       ((equal? "x" (caddr (caddr s))) 'x)
-					       (else 'y)
-					       )
-					     ;Direccion
-					     (* (cadddr listaRot) -1)
-					     ; Cara
-					     (+ (car listaRot) 2))
-					     ;Numero de la cara donde se va a hacer el cambio
-					     
-					     )) (
+				     ; Es igual los frames que se llevan en rotacion a los frames necesarios para terminar?
+			   cond ((equal? (car (cddddr listaRot)) (cadr listaRot) )(
 										    ; Aqui se rota la lista en direccion de caddddr s
 				       list ( cadr (
 					     ;car s
@@ -1629,6 +1592,8 @@ si ya termino.
 		cond ((not (null? (caddr s)) ) (
 						aumentar-frame (caddr s) s
 						))
+		; Si no hay rotaciones, se verifica si hay movimientos pendientes, de haber se agrega un movimiento a la cola de rotaciones
+		
 		     (else s)
 		))
 
@@ -1671,8 +1636,8 @@ Funcion encargada de agregar una nueva rotacion, solo lo hace si no hay una rota
 toma la lista s, el eje de rotacion, la direccion (numero positivo o negativo) y la linea en que lo va a hacer (tomar en cuenta que va de -1 a (n-2) y es n si se va a rotar todo el cubo )
 |#
 (define (agregarRotacion s eje direccion linea)(
-					; No hay rotaciones
-					cond ((null? (caddr s))(
+					; No hay rotaciones ni movimientos
+					cond ((and (null? (caddr s)) (null? (cadddr s)) )(
 								append (drop-right s 4)
 								(list (list
 									linea 0 eje (ninetify direccion) 7
@@ -1750,7 +1715,7 @@ Funciones principales
 ;(on-draw 0 0 0)
 
 ; Sin rotacion
-(big-bang3d
+#;(big-bang3d
 
 '(
 	       ;Lista del cubo
@@ -1884,3 +1849,14 @@ Funciones principales
 	       "y"
 	       )
 #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 500))
+
+; Pruebas de ejecucionnnn
+
+(define (RSP X Cubo Movs)
+(cond ((> (round X) 1)
+  (cond ((null? Cubo)
+	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() #|(traducirMovs Movs)|# '()  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
+	(else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
+(else #f)))
+(RSP 3 '() '("C3A"))
+
