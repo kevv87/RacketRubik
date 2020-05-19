@@ -71,7 +71,7 @@ ________________________________________________________/EJECUCION DEL JUEGO\___
         ;ROTACION DEL CUBO ENTERO
   (cond ((> (caddr EjeDireccionCara) X)   ;En caso de que sea una rotacion, el numero de la cara es X+2
        (cond ((equal? (car EjeDireccionCara) 'x)   ;Si es una rotacion en el eje X
-              (reord_rotacion X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) (cadr EjeDireccionCara)) (cadr EjeDireccionCara) (car EjeDireccionCara)))
+              (identificar 'x (reord_rotacion X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) (cadr EjeDireccionCara)) (cadr EjeDireccionCara) (car EjeDireccionCara))))
              ((equal? (car EjeDireccionCara) 'y)
               (cambiar_agrupacion X (identificar 'y (reord_rotacion X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) (cadr EjeDireccionCara)) (cadr EjeDireccionCara) (car EjeDireccionCara))) 'x))))
         ;ROTACION DE UNA CARA EN X
