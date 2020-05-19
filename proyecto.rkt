@@ -1862,5 +1862,5 @@ Funciones principales
 	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() (traducirMovs Movs) "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
 	(else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
 (else #f)))
-(RSP 3 '() '("F3A"))
+(RSP 3 '() '("F3D" "C2A"))
 
