@@ -73,7 +73,7 @@ ________________________________________________________/EJECUCION DEL JUEGO\___
        (cond ((equal? (car EjeDireccionCara) 'x)   ;Si es una rotacion en el eje X
               (identificar 'x (reord_rotacion X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) (cadr EjeDireccionCara)) (cadr EjeDireccionCara) (car EjeDireccionCara))))
              ((equal? (car EjeDireccionCara) 'y)
-              (cambiar_agrupacion X (identificar 'y (reord_rotacion X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) (cadr EjeDireccionCara)) (cadr EjeDireccionCara) (car EjeDireccionCara))) 'x))))
+              (cambiar_agrupacion X (identificar 'y (reord_rotacion X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) (* -1 (cadr EjeDireccionCara))) (* -1 (cadr EjeDireccionCara)) (car EjeDireccionCara))) 'x))))
         ;ROTACION DE UNA CARA EN X
       ((equal? (car EjeDireccionCara) 'x)   ;Para el cubo agrupado horizontalmente
        (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
