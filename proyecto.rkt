@@ -21,7 +21,7 @@ ________________________________________________________/EJECUCION DEL JUEGO\___
    ;Primer elemento, eje
    (
     cond
-    ((equal? (substring movimiento 0 1) "C") "x")
+    ((equal? (substring movimiento 0 1) "F") "x")
     (else "y")
     )
    ;Segundo elemento, direccion
@@ -1671,7 +1671,11 @@ si ya termino.
 						aumentar-frame (caddr s) s
 						))
 		; Si no hay rotaciones, se verifica si hay movimientos pendientes, de haber se agrega un movimiento a la cola de rotaciones
-		
+		((and (not (null? (cadddr s))) (> n 3))
+
+		 		  ; Reconstruye s, pero agregando el nuevo movimiento a la lista de rotaciones
+				  		  (append (drop-right s 4) (cons  (list (caddr (car (cadddr s))) 0 (car (car (cadddr s))) (cadr (car (cadddr s))) 7) (cons (cdr (cadddr s)) (take-right s 2))))
+						  		  )
 		     (else s)
 		))
 
@@ -1933,7 +1937,7 @@ Funciones principales
 (define (RSP X Cubo Movs)
 (cond ((> (round X) 1)
   (cond ((null? Cubo)
-	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() #|(traducirMovs Movs)|# '()  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
+	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() (traducirMovs Movs)  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
 	(else ( big-bang3d (list (caras_moviles X (format_x X Cubo 1 1)) X '() #|(traducirMovs Movs)|# '()  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))))
 (else #f)))
 (RSP 3 '() '("C3A"))
