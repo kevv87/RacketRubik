@@ -11,7 +11,7 @@
 
                                                        
 #|                                                       ___________________
-________________________________________________________/Ejecucion del juego\________________________________________________________
+________________________________________________________/EJECUCION DEL JUEGO\________________________________________________________
 |#
 
 ;Funcion auxiliar encargada de convertir que movimiento individual
@@ -21,7 +21,7 @@ ________________________________________________________/Ejecucion del juego\___
    ;Primer elemento, eje
    (
     cond
-    ((equal? (substring movimiento 0 1) "F") "x")
+    ((equal? (substring movimiento 0 1) "C") "x")
     (else "y")
     )
    ;Segundo elemento, direccion
@@ -68,20 +68,28 @@ ________________________________________________________/Ejecucion del juego\___
 *Devuelve: cubo con los cambios pertinentes aplicados
 |#
 (define (aplic_movs X Cubo_identificado EjeDireccionCara)(writeln (list X Cubo_identificado EjeDireccionCara))
-(cond ((equal? (car EjeDireccionCara) 'x)   ;Para el cubo agrupado horizontalmente
- (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
-	;Aplica rotacion + en X
-	(identificar 'x (reordenar_x X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)))   ;(llamada recursiva (identifica agrupacion en 'x (reordena colores +x (aplica rotacion))))
-       ((< (cadr EjeDireccionCara) 0)   ;Para direccion negativa de rotacion
-	;Aplica rotacion - en X
-	(identificar 'x (reordenar_x X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)))))   ;(llamada recursiva (identifica agrupacion en 'x (reordena colores -x (aplica rotacion))))
-((equal? (car EjeDireccionCara) 'y)   ;Para el cubo agrupado verticalmente
- (cond ((< (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
-	;Aplica rotacion + en Y
-	(cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)) 'x))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
-       ((> (cadr EjeDireccionCara) 0)   ;Para direccion negativa de rotacion
-	;Aplica rotacion - en Y
-	(cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)) 'x))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
+        ;ROTACION DEL CUBO ENTERO
+  (cond ((> (caddr EjeDireccionCara) X)   ;En caso de que sea una rotacion, el numero de la cara es X+2
+       (cond ((equal? (car EjeDireccionCara) 'x)   ;Si es una rotacion en el eje X
+              (reord_rotacion X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) (cadr EjeDireccionCara)) (cadr EjeDireccionCara) (car EjeDireccionCara)))
+             ((equal? (car EjeDireccionCara) 'y)
+              (cambiar_agrupacion X (identificar 'y (reord_rotacion X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) (cadr EjeDireccionCara)) (cadr EjeDireccionCara) (car EjeDireccionCara))) 'x))))
+        ;ROTACION DE UNA CARA EN X
+      ((equal? (car EjeDireccionCara) 'x)   ;Para el cubo agrupado horizontalmente
+       (cond ((> (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
+              ;Aplica rotacion + en X
+              (identificar 'x (reordenar_x X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)))   ;(llamada recursiva (identifica agrupacion en 'x (reordena colores +x (aplica rotacion))))
+             ((< (cadr EjeDireccionCara) 0)   ;Para direccion negativa de rotacion
+              ;Aplica rotacion - en X
+              (identificar 'x (reordenar_x X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'x)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)))))   ;(llamada recursiva (identifica agrupacion en 'x (reordena colores -x (aplica rotacion))))
+        ;ROTACION DE UNA CARA EN Y
+      ((equal? (car EjeDireccionCara) 'y)   ;Para el cubo agrupado verticalmente
+       (cond ((< (cadr EjeDireccionCara) 0)   ;Para direccion positiva de rotacion
+              ;Aplica rotacion + en Y
+              (cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) 90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) 90)) 'x))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores +y (aplica rotacion)))))
+             ((> (cadr EjeDireccionCara) 0)   ;Para direccion negativa de rotacion
+              ;Aplica rotacion - en Y
+              (cambiar_agrupacion X (identificar 'y (reordenar_y X (rotar X (cadr (cambiar_agrupacion X Cubo_identificado 'y)) (caddr EjeDireccionCara) -90) (caddr EjeDireccionCara) (caddr EjeDireccionCara) -90)) 'x))))))   ;(llamada recursiva (cambia agrupacion de caras moviles a eje x(identifica la agrupacion de caras moviles y(reordena colores -y (aplica rotacion)))))
 
 
 
@@ -178,7 +186,7 @@ cond
 
 
 #|                                                       _____________________________________
-________________________________________________________/Funciones para la creacion de un cubo\________________________________________________________
+________________________________________________________/FUNCIONES PARA LA CREACION DE UN CUBO\________________________________________________________
 |#
 
 #|
@@ -253,7 +261,7 @@ ________________________________________________________/Funciones para la creac
 
 
 #|                                                       _____________________________________
-________________________________________________________/ Funciones para darle formato al cubo\________________________________________________________
+________________________________________________________/FUNCIONES PAR DARLE FORMATO A UN CUBO\________________________________________________________
 |#
 
 ;PASO 1 -> CUBO POR FILAS
@@ -375,7 +383,7 @@ ________________________________________________________/Funciones para aplicar 
 *Devuelve: cubo resultante de la rotacion a una de sus caras
 |#
 (define (rotar X Cubo Num_cara Direccion)
-(cond ((>= X Num_cara)  ;Si cara menor al tamano, es rotacion de una sola cara
+(cond ((>= X Num_cara)  ;Si cara menor o igual al tamano, es rotacion de una sola cara
  (cond ((equal? Num_cara 1)   ;Si ya estoy en la cara indicada
 	(cond ((> Direccion 0)
 	 (cons (caras_moviles X (rotar+ X (car Cubo) X 1)) (cdr Cubo)))
@@ -423,6 +431,87 @@ ________________________________________________________/Funciones para aplicar 
 
 
 #|
+*Funcion: reord_rotacion
+*Argumentos: tamano cubo, cubo, direccion, eje
+*Devuelve: cubo rotado y con sus colores reordenados
+|#
+(define (reord_rotacion X Cubo Direccion Eje)
+  (cond ((equal? Eje 'x)
+         (cond ((> Direccion 0)
+                (reord_rotacion_+x X Cubo))
+               ((< Direccion 0)
+                (reord_rotacion_-x X Cubo))))
+        ((equal? Eje 'y)
+         (cond ((> Direccion 0)
+                (reord_rotacion_+y X Cubo 1))
+               ((< Direccion 0)
+                (reord_rotacion_-y X Cubo 1))))))
+         
+
+#|
+*Auxiliar: reord_rotacion_+x
+*Argumentos: tamano cubo, cubo
+*Devuelve: cubo rotado y con sus colores reordenados en +x
+|#
+(define (reord_rotacion_+x X Cubo)
+  (cond ((null? (cdr Cubo))
+         (list (reord_cara+x X 1 '() 1 (car Cubo))))
+        (else (cons (reord_cara+x X 1 '() 1 (car Cubo)) (reord_rotacion_+x X (cdr Cubo))))))
+
+
+#|
+*Auxiliar: reord_rotacion_-x
+*Argumentos: tamano cubo, cubo
+*Devuelve: cubo rotado y con sus colores reordenados en +x
+|#
+(define (reord_rotacion_-x X Cubo)
+  (cond ((null? (cdr Cubo))
+         (list (reord_cara-x X 1 '() 1 (car Cubo))))
+        (else (cons (reord_cara-x X 1 '() 1 (car Cubo)) (reord_rotacion_-x X (cdr Cubo))))))
+
+
+#|
+*Auxiliar: reord_rotacion_+y
+*Argumentos: tamano cubo, cubo, contador de caras
+*Devuelve: cubo rotado y con sus colores reordenados en +y
+|#
+(define (reord_rotacion_+y X Cubo Contador_caras)
+  (cond ((equal? Contador_caras X)
+         (list (reord_ultima_cara+y X 1 '() 1 (car Cubo))))
+        ((equal? Contador_caras 1)
+         (cons (reord_primera_cara+y X 1 '() 1 (car Cubo)) (reord_rotacion_+y X (cdr Cubo) (+ Contador_caras 1))))
+        (else (cons (reord_cara_centro_y X 1 '() 1 (car Cubo)) (reord_rotacion_+y X (cdr Cubo) (+ Contador_caras 1))))))
+
+
+#|
+*Auxiliar: reord_rotacion_-y
+*Argumentos: tamano cubo, cubo, contador de caras
+*Devuelve: cubo rotado y con sus colores reordenados en +y
+|#
+(define (reord_rotacion_-y X Cubo Contador_caras)
+  (cond ((equal? Contador_caras X)
+         (list (reord_ultima_cara-y X 1 '() 1 (car Cubo))))
+        ((equal? Contador_caras 1)
+         (cons (reord_primera_cara-y X 1 '() 1 (car Cubo)) (reord_rotacion_-y X (cdr Cubo) (+ Contador_caras 1))))
+        (else (cons (reord_cara_centro_y X 1 '() 1 (car Cubo)) (reord_rotacion_-y X (cdr Cubo) (+ Contador_caras 1))))))
+
+
+#|
+*Funcion: get_cara 
+*Argumentos: cubo (individual), numero de cara
+*Devuelve: cara que corresponde a la columna N
+|#
+(define (get_cara Cubo Cara)
+(cond ((equal? Cara 1)
+ (car Cubo))
+(else (get_cara (cdr Cubo) (- Cara 1)))))
+
+#|
+_________________________________REORDENAR COLORES CARAS VERTICALES_________________________________
+|#
+
+
+#|
 *Funcion: reordenar_y (se aplica despues de la rotacion)
 *Argumentos: tamano cubo, cubo, numero de cara, contador de cara (regresivo), direccion (+90 o -90)
 *Devuelve: cubo resultante de la reorganizacion de colores en la cara rotada
@@ -443,20 +532,6 @@ ________________________________________________________/Funciones para aplicar 
 	      (else (cons (reord_cara_centro_y X 1 '() 1 (car Cubo)) (cdr Cubo)))))))   ;No hay distincion de direccion porque no aplica al patron de cambio
 (else (cons (car Cubo) (reordenar_y X (cdr Cubo) Cara (- Cont_cara 1) Direccion)))))
 
-
-#|
-*Funcion: get_cara 
-*Argumentos: cubo (individual), numero de cara
-*Devuelve: cara que corresponde a la columna N
-|#
-(define (get_cara Cubo Cara)
-(cond ((equal? Cara 1)
- (car Cubo))
-(else (get_cara (cdr Cubo) (- Cara 1)))))
-
-#|
-_________________________________REORDENAR COLORES CARAS VERTICALES_________________________________
-|#
 
 
 #|
@@ -665,6 +740,9 @@ _________________________________REORDENAR COLORES CARAS HORIZONTALES___________
 |#
 (define (reacomodar_2 Cubito)
 (list (cadr Cubito) (car Cubito)))   ;Solo basta con reacomodar sus dos elementos
+
+
+
 
 
 
@@ -1593,11 +1671,7 @@ si ya termino.
 						aumentar-frame (caddr s) s
 						))
 		; Si no hay rotaciones, se verifica si hay movimientos pendientes, de haber se agrega un movimiento a la cola de rotaciones
-		((and (not (null? (cadddr s))) (> n 3))
-		 
-		  ; Reconstruye s, pero agregando el nuevo movimiento a la lista de rotaciones
-		  (append (drop-right s 4) (cons  (list (caddr (car (cadddr s))) 0 (car (car (cadddr s))) (cadr (car (cadddr s))) 7) (cons (cdr (cadddr s)) (take-right s 2))))
-		  )
+		
 		     (else s)
 		))
 
@@ -1641,7 +1715,7 @@ toma la lista s, el eje de rotacion, la direccion (numero positivo o negativo) y
 |#
 (define (agregarRotacion s eje direccion linea)(
 					; No hay rotaciones ni movimientos
-					cond ( (null? (caddr s)) (null? (cadddr s)) (
+					cond ((and (null? (caddr s)) (null? (cadddr s)) )(
 								append (drop-right s 4)
 								(list (list
 									linea 0 eje (ninetify direccion) 7
@@ -1859,8 +1933,8 @@ Funciones principales
 (define (RSP X Cubo Movs)
 (cond ((> (round X) 1)
   (cond ((null? Cubo)
-	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() (traducirMovs Movs) "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
+	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() #|(traducirMovs Movs)|# '()  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
 	(else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
 (else #f)))
-(RSP 3 '() '("F3D" "C2A"))
+(RSP 3 '() '("C3A"))
 
