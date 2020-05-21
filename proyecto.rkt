@@ -1938,5 +1938,12 @@ Funciones principales
 	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() (traducirMovs Movs)  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
 	(else ( big-bang3d (list (caras_moviles X (format_x X Cubo 1 1)) X '() #|(traducirMovs Movs)|# '()  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))))
 (else #f)))
-(RS 6 '() '())
+(RS 3 '( (rgba "green") (rgba "red") (rgba "yellow") (rgba "blue") (rgba "white") (rgba "blue") (rgba "red") (rgba "yellow") (rgba "red") (rgba "blue") (rgba "red") (rgba "red") (rgba "green") 
+		      (rgba "green") (rgba "white") (rgba "orange") (rgba "yellow") (rgba "red") (rgba "blue") (rgba "red") (rgba "white")
+		      (rgba "white") (rgba "orange") (rgba "white") (rgba "green") (rgba "orange") (rgba "blue") () (rgba "green")
+		      (rgba "blue") (rgba "orange") (rgba "yellow") (rgba "white") (rgba "red")
+		      (rgba "orange") (rgba "white") (rgba "blue") (rgba "green") (rgba "yellow") (rgba "orange") (rgba "blue") (rgba "yellow")
+		      (rgba "white") (rgba "green") (rgba "orange") (rgba "blue") (rgba "yellow") (rgba "red") (rgba "green") (rgba "white") (rgba "yellow") (rgba "orange") (rgba "yellow") (rgba "orange") (rgba "green")
+		      ) '())
+
 
