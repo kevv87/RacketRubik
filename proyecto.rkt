@@ -1079,51 +1079,51 @@ color: Color con que se va a pintar, de tipo (rgba "white")
 (define (pintarCaraV cara lado tapa cubo size color) (
 			     cond ((equal? cara "frente")(
 							  quad
-							    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1) )
-							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) 
+							    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1) )
+							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1)) 
 							    #:back? #t
 							    
 							  ))
 				  ((equal? cara "izquierda")(
 							     quad
-							    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
 							    )
 							     )
 				  ((equal? cara "derecha")(
 							   quad
-							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
+							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1)) #:back? #t
 							    
 							   ))
 				  ((equal? cara "arriba")(
 							  quad
-							    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ tapa 1) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
 							    
 							  ))
 				  ((equal? cara "atras")(
 							 quad
-							    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1)  (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ tapa 1) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ tapa 1)  (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
 							    
 							 ))
 				  ((equal? cara "abajo")(
 							 quad
-							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
+							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) cubo ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ (+ lado 1) size) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ lado 1) (+ (+ tapa 1) size) (+ cubo size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1)) #:back? #t
 							    
 							 ))
 			     ))
@@ -1141,50 +1141,50 @@ color: Color con que se va a pintar, de tipo (rgba "white")
 			     cond ((equal? cara "frente")(
 							  ; Frente
 							  quad
-							    (vertex (pos cubo (+ lado 1) (+ tapa 1)) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1)) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1)) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos cubo  (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
+							    (vertex (pos cubo (+ lado 1) (+ tapa 1)) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1)) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1)) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo  (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1)) #:back? #t
 							    
 							  ))
 				  ((equal? cara "izquierda")(
 							     quad
-							    (vertex (pos cubo (+ lado 1) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos cubo (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ lado 1) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
 							    )
 							     )
 				  ((equal? cara "derecha")(
 							   quad
-							    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
+							    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1)) #:back? #t
 							    
 							   ))
 				  ((equal? cara "arriba")(
 							  quad
-							    (vertex (pos cubo (+ lado 1) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ lado 1) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ lado 1) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
 							    
 							  ))
 				  ((equal? cara "atras")(
 							 quad
-							    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ lado 1)  (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ lado 1) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ lado 1)  (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
 							    
 							 ))
 				  ((equal? cara "abajo")(
 							 quad
-							    (vertex (pos cubo (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1))
-							    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color ns) #:emitted (emitted (cadr color) 1)) #:back? #t
+							    (vertex (pos cubo (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ tapa 1) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos (+ cubo size) (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1))
+							    (vertex (pos cubo (+ (+ lado 1) size) (+ (+ tapa 1) size) ) #:color (eval color (namespace-anchor->namespace a)) #:emitted (emitted (cadr color) 1)) #:back? #t
 							    
 							 ))
 			     ))
@@ -1518,7 +1518,7 @@ en esencia funciona igual que pintarV|#
 			 cond
 			  ; Hay que rotar el cubo
 			  ((equal? (cadr s) (car (caddr s) ) ) (
-								; (eval (caddr s) ns) es la lista de rotacion
+								; (eval (caddr s) (namespace-anchor->namespace a)) es la lista de rotacion
 								;horizontal
 								cond ((equal? "x" ( caddr (caddr s)  ))(
 			 combine (basis 'camera (affine-compose  (move-y (/ (cadr s) 2)) (move-x (/ (cadr s) 2)) (point-at (pos 0 0 (* -1 (cadr s))) origin) ))
@@ -1660,7 +1660,7 @@ si ya termino.
 						aumentar-frame (caddr s) s
 						))
 		; Si no hay rotaciones, se verifica si hay movimientos pendientes, de haber se agrega un movimiento a la cola de rotaciones
-		((and (not (null? (cadddr s))) (> t 5000))
+		((and (not (null? (cadddr s))) (> t 3000))
 
 		 		  ; Reconstruye s, pero agregando el nuevo movimiento a la lista de rotaciones
 				  		  (append (drop-right s 4) (cons  (list (caddr (car (cadddr s))) 0 (car (car (cadddr s))) (cadr (car (cadddr s))) 7) (cons (cdr (cadddr s)) (take-right s 2))))
