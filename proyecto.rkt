@@ -49,25 +49,12 @@ ________________________________________________________/EJECUCION DEL JUEGO\___
    )
   )
 
-
-
-
-
-
-;Funcion que simula un cubo de Rubik
-(define (RS X Cubo Movs)
-(cond ((> (round X) 1)
-  (cond ((null? Cubo)
-	 (aplic_movs X (cubo_standard (round X)) Movs))   ;Si no ingresa un cubo, genera un cubo NxN estandar
-	(else (aplic_movs X (identificar 'x (caras_moviles X (format_x X Cubo 1 1))) Movs))))
-(else #f)))
-
 #|
 *Funcion: aplic_movs
 *Argumentos: tamano cubo, cubo identificado por eje, lista con el eje, la direccion y la cara
 *Devuelve: cubo con los cambios pertinentes aplicados
 |#
-(define (aplic_movs X Cubo_identificado EjeDireccionCara)(writeln (list X Cubo_identificado EjeDireccionCara))
+(define (aplic_movs X Cubo_identificado EjeDireccionCara)
         ;ROTACION DEL CUBO ENTERO
   (cond ((> (caddr EjeDireccionCara) X)   ;En caso de que sea una rotacion, el numero de la cara es X+2
        (cond ((equal? (car EjeDireccionCara) 'x)   ;Si es una rotacion en el eje X
@@ -1739,15 +1726,26 @@ Retorna (i j) donde i es la cara donde se hizo el drag en x y j lo mismo en y.
 |#
 (define (proyeccion x y n)(
 		   ; Se esta haciendo drag fuera del cubo
-		 cond ((or (< (exact->inexact (/ x (/ 253 n)) ) 1.5) (> (exact->inexact (/ x (/ 253 n)) )  (+ n 1.5)) (< (exact->inexact (/ y (/ 253 n)) ) 1.5) (> (exact->inexact (/ y (/ 253 n)) ) (+ n 1.5))) 
+		 cond ((or (< x 128) (> x 383) (< y 128) (> y 383)) 
 		       (
 			list (+ n 1) (+ n 1)
 			))
 		 ; Se esta haciendo drag dentro del cubo
-		 (else (
-			list (inexact->exact (truncate (- (exact->inexact (/ x (/ 253 n)) ) 1.5) )) (inexact->exact (truncate (- (exact->inexact (/ y (/ 253 n)) ) 1.5) ))
-			))
+		 (else 
+		   (
+		    pro_aux x y n
+		    )
+		       )
 		 ))
+; Debe devolver el n de la cara en la que estoy apretando
+; Recibe el tamanno del cubo como n. Y el click,
+(define (pro_aux x y n)
+  (
+   list (inexact->exact (truncate ( exact->inexact (/ (- x 128) (/ 255 n))))) (inexact->exact (truncate ( exact->inexact (/ (- y 128) (/ 255 n)))))
+   )
+  )
+
+
 
 
 #|
@@ -1758,7 +1756,7 @@ y se agrega a la lista de rotaciones la rotacion pertinente
 |#
 (define (on-mouse s n t x y e)
 		       (
-			cond ((equal? "left-down" e)(
+			cond ((equal? "left-down" e)(writeln (list x y))(
 						append (drop-right s 1) (list (list x y (proyeccion x y (cadr s)) ))
 						))
 			((equal? "left-up" e)( 
@@ -1934,11 +1932,11 @@ Funciones principales
 
 ; Pruebas de ejecucionnnn
 
-(define (RSP X Cubo Movs)
+(define (RS X Cubo Movs)
 (cond ((> (round X) 1)
   (cond ((null? Cubo)
 	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() (traducirMovs Movs)  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
 	(else ( big-bang3d (list (caras_moviles X (format_x X Cubo 1 1)) X '() #|(traducirMovs Movs)|# '()  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))))
 (else #f)))
-(RSP 3 '() '("C3A"))
+(RS 6 '() '())
 
