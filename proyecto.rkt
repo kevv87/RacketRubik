@@ -15,7 +15,7 @@ ________________________________________________________/EJECUCION DEL JUEGO\___
 |#
 
 ;Funcion auxiliar encargada de convertir que movimiento individual
-(define (traducir_aux movimiento)
+(define (traducir_aux movimiento X)
   (
    list
    ;Primer elemento, eje
@@ -31,20 +31,22 @@ ________________________________________________________/EJECUCION DEL JUEGO\___
     (else (- 0 90))
     )
    ;Tercer elemento, linea
-   (
-    - (string->number (substring movimiento 1 2) ) 2
-    )
+   
+    (cond ((> (string->number (substring movimiento 1 2)) X) X)
+	  (else (- (string->number (substring movimiento 1 2) ) 2))
+	  ) 
+   
    )
   )
 
 
 ; Funcion encargada de traducir los Movs del profe a movimientos de la interfaz
-(define (traducirMovs Movs)
+(define (traducirMovs Movs X)
   (
    cond 
    ((null? Movs) Movs)
    (else (
-	  cons (traducir_aux (car Movs)) (traducirMovs (cdr Movs))
+	  cons (traducir_aux (car Movs) X) (traducirMovs (cdr Movs) X)
 	  ))
    )
   )
@@ -1658,7 +1660,7 @@ si ya termino.
 						aumentar-frame (caddr s) s
 						))
 		; Si no hay rotaciones, se verifica si hay movimientos pendientes, de haber se agrega un movimiento a la cola de rotaciones
-		((and (not (null? (cadddr s))) (> n 3))
+		((and (not (null? (cadddr s))) (> t 5000))
 
 		 		  ; Reconstruye s, pero agregando el nuevo movimiento a la lista de rotaciones
 				  		  (append (drop-right s 4) (cons  (list (caddr (car (cadddr s))) 0 (car (car (cadddr s))) (cadr (car (cadddr s))) 7) (cons (cdr (cadddr s)) (take-right s 2))))
@@ -1935,15 +1937,9 @@ Funciones principales
 (define (RS X Cubo Movs)
 (cond ((> (round X) 1)
   (cond ((null? Cubo)
-	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() (traducirMovs Movs)  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
-	(else ( big-bang3d (list (caras_moviles X (format_x X Cubo 1 1)) X '() #|(traducirMovs Movs)|# '()  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))))
+	  ( big-bang3d (list (caras_moviles X (format_x X (cubo_standard X) 1 1)) X '() (traducirMovs Movs X)  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))   ;Si no ingresa un cubo, genera un cubo NxN estandar
+	(else ( big-bang3d (list (caras_moviles X (format_x X Cubo 1 1)) X '() (traducirMovs Movs X )  "x" '()  ) #:on-draw on-draw #:on-frame on-frame #:frame-delay (/ 1000 140) #:on-mouse on-mouse))))
 (else #f)))
-(RS 3 '( (rgba "green") (rgba "red") (rgba "yellow") (rgba "blue") (rgba "white") (rgba "blue") (rgba "red") (rgba "yellow") (rgba "red") (rgba "blue") (rgba "red") (rgba "red") (rgba "green") 
-		      (rgba "green") (rgba "white") (rgba "orange") (rgba "yellow") (rgba "red") (rgba "blue") (rgba "red") (rgba "white")
-		      (rgba "white") (rgba "orange") (rgba "white") (rgba "green") (rgba "orange") (rgba "blue") () (rgba "green")
-		      (rgba "blue") (rgba "orange") (rgba "yellow") (rgba "white") (rgba "red")
-		      (rgba "orange") (rgba "white") (rgba "blue") (rgba "green") (rgba "yellow") (rgba "orange") (rgba "blue") (rgba "yellow")
-		      (rgba "white") (rgba "green") (rgba "orange") (rgba "blue") (rgba "yellow") (rgba "red") (rgba "green") (rgba "white") (rgba "yellow") (rgba "orange") (rgba "yellow") (rgba "orange") (rgba "green")
-		      ) '())
+(RS 3 '() '("C4A"))
 
 
